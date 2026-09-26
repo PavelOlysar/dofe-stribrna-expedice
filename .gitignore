@@ -1,0 +1,12 @@
+# Full-resolution originals (kept locally, not published)
+_originals/
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Local tooling
+node_modules/
