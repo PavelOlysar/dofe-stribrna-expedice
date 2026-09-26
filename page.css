@@ -153,13 +153,12 @@ footer .dofe-link{align-self:flex-start}
 @media (max-width:960px){.nav-brand-link > span:last-child{white-space:nowrap;font-size:16px !important}}
 @media (max-width:379px){.nav-brand-link > span{display:none}}
 
-/* ── Route map: button overlays the map on desktop, sits below it on phones ── */
-.route-map-wrap{position:relative;margin-top:12px}
-.route-map{position:relative;border-radius:var(--radius-lg);overflow:hidden;background:var(--color-neutral-100);aspect-ratio:16/8;min-height:360px}
-.route-map-btn{position:absolute;right:16px;bottom:16px}
+/* ── Route map: "Open in Google Maps" sits below the map (right-aligned; full width on phones) ── */
+.route-map-wrap{position:relative;margin-top:12px;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.route-map{position:relative;align-self:stretch;border-radius:var(--radius-lg);overflow:hidden;background:var(--color-neutral-100);aspect-ratio:16/8;min-height:360px}
 @media (max-width:640px){
   .route-map{aspect-ratio:auto;min-height:0;height:clamp(380px, 125vw, 75vh)}
-  .route-map-btn{position:static;display:flex !important;justify-content:center;width:100%;margin-top:10px;padding-block:13px}
+  .route-map-btn{display:flex !important;justify-content:center;align-self:stretch;padding-block:13px}
 }
 
 /* ── Hero carousel + badge on phones: taller frame, controls that fit ── */
