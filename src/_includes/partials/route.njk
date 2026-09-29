@@ -1,0 +1,25 @@
+  <section id="trasa" class="route wrap">
+    <h2 class="section-title" data-reveal="up">{{ i18n.routeTitle | t(lang) }}</h2>
+    <p class="route-intro muted" data-reveal="up" data-delay="100">{{ i18n.routeIntro | t(lang) | safe }}</p>
+    <div class="route-grid" data-stagger>
+{%- for day in days %}
+      <a class="route-card" href="#{{ day.id }}" data-reveal="tilt">
+        <div class="route-card-head">
+          <span class="route-card-day">{{ i18n.day | t(lang) }} {{ day.n }}</span>
+          <span class="route-card-km">{{ day.km | num(lang) }} km</span>
+        </div>
+        <div class="stops">
+          <div class="stops-line" data-line></div>
+{%- for stop in day.route.stops %}
+          <div class="stop stop--{{ stop.kind }}" data-stop><span class="stop-name">{{ stop.name | t(lang) }}</span><span class="stop-sub">{{ stop.sub | t(lang) }}</span></div>
+{%- endfor %}
+        </div>
+        <div class="route-card-foot">{{ day.route.foot | t(lang) }}</div>
+      </a>
+{%- endfor %}
+    </div>
+    <div class="route-map-wrap" data-reveal="up">
+      <div class="route-map"><iframe title="{{ i18n.mapTitle | t(lang) }}" src="{{ i18n.mapSrc }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      <a class="btn btn-primary route-map-btn" href="{{ i18n.mapHref }}" target="_blank" rel="noopener">{{ i18n.mapButton | t(lang) }}<span aria-hidden="true">↗</span></a>
+    </div>
+  </section>

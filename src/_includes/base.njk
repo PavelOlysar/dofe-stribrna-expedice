@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ pageTitle or (i18n.title | t(lang)) }}</title>
+<meta name="description" content="{{ i18n.description | t(lang) }}">
+<meta name="theme-color" content="#f5ead8">
+<meta name="color-scheme" content="only light">
+{%- if not noindex %}
+<link rel="canonical" href="{{ site.url }}{{ '' if lang == 'cs' else 'en/' }}">
+<link rel="alternate" hreflang="cs" href="{{ site.url }}">
+<link rel="alternate" hreflang="en" href="{{ site.url }}en/">
+<link rel="alternate" hreflang="x-default" href="{{ site.url }}">
+{%- else %}
+<meta name="robots" content="noindex">
+{%- endif %}
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ site.url }}{{ '' if lang == 'cs' else 'en/' }}">
+<meta property="og:locale" content="{{ i18n.locale | t(lang) }}">
+<meta property="og:locale:alternate" content="{{ i18n.locale | t('en' if lang == 'cs' else 'cs') }}">
+<meta property="og:title" content="{{ i18n.ogTitle | t(lang) }}">
+<meta property="og:description" content="{{ i18n.ogDescription | t(lang) }}">
+<meta property="og:image" content="{{ site.url }}assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ i18n.ogImageAlt | t(lang) }}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/young-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
+{%- if heroPreload %}
+<noscript><style>[data-hero]{opacity:1 !important}</style></noscript>
+{% photoPreload slides[0].src, '(max-width: 1120px) calc(100vw - 48px), 1072px' %}
+{%- endif %}
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/page.css">
+</head>
+<body>
+{{ content | safe }}
+</body>
+</html>

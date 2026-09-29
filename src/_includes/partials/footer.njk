@@ -1,0 +1,8 @@
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <img class="footer-logo" width="481" height="121" src="/assets/dofe-logo.png" alt="{{ i18n.logoAlt }}">
+      <div class="footer-meta"><span>{{ i18n.footerLine | t(lang) }}</span><a class="dofe-link" href="{{ i18n.dofeUrl | t(lang) }}" target="_blank" rel="noopener">{{ i18n.footerDofe | t(lang) }} <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <a class="top-btn" href="#"><span class="top-btn-label">{{ i18n.toTop | t(lang) }}</span><span class="top-btn-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></span></a>
+    <p class="footer-contact">{{ i18n.madeBy | t(lang) }} {{ site.contact.name }} <span class="sep" aria-hidden="true">·</span> <a href="{{ site.contact.web }}" target="_blank" rel="noopener">{{ site.contact.webLabel }}</a> <span class="sep" aria-hidden="true">·</span> <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></p>
+  </footer>

@@ -1,0 +1,33 @@
+---
+pagination:
+  data: site.langs
+  size: 1
+  alias: lang
+permalink: "{{ '/' if lang == 'cs' else '/' + lang + '/' }}"
+layout: base.njk
+heroPreload: true
+---
+{%- set stories = collections.stories[lang] -%}
+<script>setTimeout(function(){if(!window.expediceReady){var h=document.querySelectorAll('[data-hero]');for(var i=0;i<h.length;i++)h[i].style.opacity=''}},2500)</script>
+<a class="skip-link" href="#obsah">{{ i18n.skip | t(lang) }}</a>
+<div id="app">
+{% include "partials/nav.njk" %}
+{% include "partials/hero.njk" %}
+{% include "partials/stats.njk" %}
+{% include "partials/route.njk" %}
+  <main id="obsah">
+  <article class="story wrap">
+    <div class="story-text">{{ stories['uvod'].content | safe }}</div>
+{%- asyncEach day in days %}
+{% include "partials/day.njk" %}
+{%- endeach %}
+{% include "partials/finale.njk" %}
+  </article>
+  </main>
+{% include "partials/gallery.njk" %}
+{% include "partials/footer.njk" %}
+  <div class="grain" aria-hidden="true"></div>
+{% include "partials/trail-pill.njk" %}
+</div>
+{% include "partials/lightbox.njk" %}
+<script src="/js/script.js"></script>

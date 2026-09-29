@@ -1,0 +1,10 @@
+  <section class="stats wrap">
+    <div class="stats-grid" data-stagger>
+{%- for s in i18n.stats %}
+      <div class="stat-card" data-reveal="pop">
+        <div class="stat-value"><span data-count="{{ s.value }}" data-dec="{{ s.dec }}">{{ s.value | num(lang, s.dec) }}</span>{% if s.unit %}<span class="stat-unit">{{ s.unit }}</span>{% endif %}</div>
+        <div class="stat-label">{{ s.label | t(lang) }}</div>
+      </div>
+{%- endfor %}
+    </div>
+  </section>

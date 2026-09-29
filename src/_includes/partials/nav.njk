@@ -1,0 +1,22 @@
+  <nav class="site-nav" data-site-nav aria-label="{{ i18n.navLabel | t(lang) }}">
+    <div class="nav-bar">
+      <a class="nav-brand-link" href="#">
+        <img class="nav-logo" width="481" height="121" src="/assets/dofe-logo.png" alt="DOFE">
+        <span class="nav-divider"></span>
+        <span class="nav-brand-text">{{ i18n.brand | t(lang) }}</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="{{ i18n.menuOpen | t(lang) }}" data-label-open="{{ i18n.menuOpen | t(lang) }}" data-label-close="{{ i18n.menuClose | t(lang) }}"><span></span><span></span><span></span></button>
+      <div class="nav-menu" id="site-menu">
+        <div class="nav-links">
+{%- for item in i18n.nav %}
+          <a class="nav-link" href="#{{ item.id }}" data-nav="{{ item.id }}">{{ item.label | t(lang) }}</a>
+{%- endfor %}
+        </div>
+        <div class="nav-lang" role="group" aria-label="{{ i18n.langLabel | t(lang) }}">
+          <a class="lang-link" href="/" hreflang="cs" lang="cs" data-lang-link{% if lang == 'cs' %} aria-current="page"{% endif %}>CZ</a>
+          <a class="lang-link" href="/en/" hreflang="en" lang="en" data-lang-link{% if lang == 'en' %} aria-current="page"{% endif %}>EN</a>
+        </div>
+      </div>
+    </div>
+    <div class="progress"><div class="progress-bar" data-progress></div></div>
+  </nav>

@@ -1,54 +1,109 @@
-# Naše stříbrná DofE expedice
+# Naše stříbrná DOFE expedice
 
-Bilingual (Czech / English) one-page story of our Silver-level Duke of Edinburgh's Award expedition:
+Bilingual (Czech / English) one-page story of our Silver-level Duke of Edinburgh's Award (DOFE) expedition:
 four days on foot from Nová Bystřice to Vysočany via Landštejn, Slavonice and the Austrian border
 (27–30 August 2026, 82.9 km).
 
-Designed in Claude Design and implemented as a plain static site: no build step, no dependencies.
+Designed in Claude Design and built as a static site with [Eleventy](https://www.11ty.dev/).
+Czech lives at `/`, English at `/en/`.
 
-## Run locally
+## Editing text
 
-Open `index.html` in a browser, or serve the folder (recommended, so everything behaves as online):
-
-```sh
-python3 -m http.server 8000
-# → http://localhost:8000
-```
-
-## Deploy
-
-Any static host works: upload the folder as it is.
-
-- **GitHub Pages:** repo *Settings → Pages → Deploy from a branch → `main` / root*.
-  `404.html` is picked up automatically.
-- **Netlify / Vercel / Cloudflare Pages:** no build command, publish directory `/`.
-
-After the site has its final address, update the social-preview tags in `index.html`
-(`og:image` must be an absolute URL, and add `og:url`) so link previews show the photo.
-
-## Structure
+Every story is a plain Markdown file, one per language:
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The whole page. Every text exists twice: `<span data-l="cs">` and `<span data-l="en">`. |
-| `styles.css` | Design-system tokens and base components (colours, type, buttons, tags). |
-| `page.css` | Page-specific styles: language switch, carousel, day cards, Keen card, signpost, tracker… |
-| `hover.css` | Hover effects carried over from the design. |
-| `script.js` | Language switch, hero carousel, lightbox, scroll progress / active nav, reveal animations, trail tracker, signpost tilt. |
-| `404.html` | "Lost the trail" page. |
-| `assets/` | Logos, icons, social preview image and `photos/` (resized to max 1800 px, metadata stripped). |
+| `src/content/cs/uvod.md` · `src/content/en/uvod.md` | The intro before Day 1 |
+| `src/content/cs/den-1.md` … `den-4.md` (and `en/`) | The four days. `title:` at the top is the day's heading. |
+| `src/content/cs/keen.md` (and `en/`) | The Keen Challenge card: title, task, button, photo caption, and the story as the text |
+| `src/content/cs/zaver.md` (and `en/`) | The closing card: kicker, the quote, sign-off |
 
-### Editing text
+Inside a day file:
 
-Find the sentence in `index.html` and change both language versions. The language choice is remembered
-in the visitor's browser (`localStorage`, key `expedice-lang`).
+- Paragraphs are separated by an empty line.
+- The line `<!-- fotky -->` (or `<!-- keen -->` on Day 3) marks where the photo pair (or the Keen card) goes.
+  Text above it sits next to the "Den N v kostce" card; text below it comes after the photos.
+- Glossary words with a tooltip are written like
+  `<span class="term" tabindex="0" data-tip="The explanation">word</span>`.
 
-### Adding or replacing photos
+Short texts that aren't stories (navigation, buttons, stats, the route cards, "v kostce" rows, photo notes,
+gallery captions, photo descriptions) are in `src/_data/`:
 
-Keep the same file names in `assets/photos/`, or update the `src` in `index.html`.
-Resize large phone photos first (max ~1800 px on the long edge, JPEG quality ~80) to keep the page fast.
+| File | Contents |
+| --- | --- |
+| `i18n.json` | Navigation, buttons, labels, page title and description, stats |
+| `days.json` | Per day: km, trail colour, route-card stops, "v kostce" rows, photo pair with handwritten notes |
+| `gallery.json` | The 12 gallery photos: file, caption, description, tilt, tape colour |
+| `slides.json` | The hero slideshow photos and their descriptions |
+| `signpost.json` | The signpost arrows in the hero |
+| `site.js` | Site address and the author contact in the footer |
+
+Every text there has a `cs` and an `en` version: change both.
+
+## Photos
+
+Put photos in `src/assets/photos/` and reference them by file name in the data files above.
+The build makes every photo in several sizes (480–1800 px) and formats (AVIF, WebP, JPEG), so phones
+download small versions. Resize huge originals to about 1800 px on the long edge first to keep the repo small.
+
+## Run locally
+
+Needs Node.js 20 or newer.
+
+```sh
+npm install          # once
+npm run dev          # live preview at http://localhost:8080, reloads on every save
+```
+
+`npm run build` writes the finished site to `_site/`.
+
+**Using VS Code's Live Server ("Go Live")?** The project folder itself has no `index.html` any more (the page is
+built into `_site/`), so Live Server is set to serve `_site/` (`.vscode/settings.json`). Keep `npm run watch`
+running in a terminal: it rebuilds `_site/` on every save, and Live Server reloads the page.
+
+## Checks
+
+```sh
+npx playwright install chromium   # once
+npm run check                     # build + HTML validation + browser tests
+```
+
+The tests (`tests/site.spec.js`) open the built site in Chromium and check:
+
+- no sideways scrolling and no errors at widths from 320 to 1440 px, in both languages;
+- forced dark mode on phones keeps the page light;
+- the photo viewer works with the keyboard and moves focus correctly;
+- the slideshow pause button works, and the slideshow doesn't autoplay with reduced motion;
+- swiping works;
+- all internal links resolve;
+- the 404 page is styled.
+
+## Deploy
+
+Every push to GitHub runs the checks (`.github/workflows/site.yml`). A push to `main` that passes is
+published to GitHub Pages at <https://pavelolysar.github.io/dofe-stribrna-expedice/>.
+
+One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+
+With a custom domain later, set `SITE_ORIGIN` and `PATH_PREFIX` in the workflow (see `src/_data/site.js`)
+so link previews and paths use the new address.
+
+## Structure
+
+| Path | What it is |
+| --- | --- |
+| `src/index.njk` | The page; builds both `/` (cs) and `/en/` |
+| `src/404.njk` · `src/sitemap.njk` · `src/robots.njk` | The 404 page, the sitemap for search engines, robots.txt |
+| `src/_includes/` | Layout and page sections (`partials/`: nav, hero, route, day, finale, gallery, footer…) |
+| `src/css/styles.css` | Design-system tokens and base components (colours, type, buttons, tags) |
+| `src/css/page.css` | Page styles, in page order |
+| `src/js/script.js` | Menu, slideshow, photo viewer, scroll progress, trail tracker, reveal animations |
+| `src/assets/` | Logos, icons, link-preview image, the paper grain tile, self-hosted fonts (`fonts/`) and `photos/` |
+| `eleventy.config.js` | Build setup: photo sizes, language helpers |
+| `tests/` | Browser tests and a small server that mimics GitHub Pages |
 
 ## Credits
 
-Text and photos © the expedition members. DofE and KEEN logos belong to their respective owners
-and are used only to refer to the programme and the challenge.
+Text and photos © the expedition members. DOFE and KEEN logos belong to their respective owners
+and are used only to refer to the programme and the challenge. Fonts (Figtree, Young Serif,
+Delicious Handrawn) are under the SIL Open Font License; see `src/assets/fonts/`.

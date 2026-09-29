@@ -1,0 +1,37 @@
+[
+  {
+    "src": "hero.webp",
+    "alt": {
+      "cs": "Skupinová fotka na startu",
+      "en": "Group photo at the start"
+    }
+  },
+  {
+    "src": "hero-2.webp",
+    "alt": {
+      "cs": "Záběr z dronu",
+      "en": "Drone shot"
+    }
+  },
+  {
+    "src": "hero-3.webp",
+    "alt": {
+      "cs": "Tábor pod širým nebem",
+      "en": "Camp under the open sky"
+    }
+  },
+  {
+    "src": "hero-4.webp",
+    "alt": {
+      "cs": "Cesta podél polí",
+      "en": "Path along the fields"
+    }
+  },
+  {
+    "src": "hero-5.jpg",
+    "alt": {
+      "cs": "Noc v lese",
+      "en": "Night in the woods"
+    }
+  }
+]

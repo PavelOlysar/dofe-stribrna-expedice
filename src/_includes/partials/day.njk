@@ -1,0 +1,56 @@
+{%- set story = stories[day.id] -%}
+{%- set parts = story.content | storyParts -%}
+{%- set glanceTitle = i18n.atAGlance | t(lang) | fmt({ n: day.n }) %}
+    <section id="{{ day.id }}" class="day">
+      <div class="day-head" data-reveal="left">
+        <span class="day-tag tag tag-accent">{{ i18n.day | t(lang) }} {{ day.n }} · {{ day.km | num(lang) }} km</span>
+        <span class="day-trail">{{ day.trail.name | t(lang) }}</span>
+      </div>
+      <h2 class="day-title" data-reveal="up" data-delay="120">{{ story.data.title }}</h2>
+      <div class="day-row">
+        <div class="prose">{{ parts.before | safe }}</div>
+        <aside class="glance" aria-label="{{ glanceTitle }}" data-reveal="pop"{% if day.trail.color %} style="--trail:{{ day.trail.color }}"{% endif %}>
+          <div class="glance-head">{% if day.trail.color %}<span class="glance-trail"></span>{% endif %}<span>{{ glanceTitle }}</span></div>
+          <ul>
+{%- for row in day.glance %}
+            <li class="glance-row"><span class="glance-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ row.icon }}"/></svg></span><span><span class="glance-label">{{ row.label | t(lang) }}</span><span class="glance-value">{{ row.value | t(lang) }}</span></span></li>
+{%- endfor %}
+          </ul>
+        </aside>
+      </div>
+{%- if day.insert == 'photos' %}
+      <div class="photo-pair" data-stagger>
+{%- asyncEach p in day.photos %}
+        <figure class="story-photo" data-reveal="tilt">
+          <button type="button" class="zoom" data-group="story" aria-label="{{ i18n.enlarge | t(lang) }}: {{ p.alt | t(lang) }}">{% photo p.src, p.alt | t(lang), { sizes: '(max-width: 760px) calc(100vw - 48px), 520px', cls: 'slot' } %}</button>
+          <div class="photo-note photo-note--{{ p.note.side }}" data-note aria-hidden="true" style="--x:{{ p.note.offset }};--r:{{ p.note.rotate }}deg;--ax:{{ p.note.arrowX }}px">
+            <span class="photo-note-text hand" data-note-text>{{ p.note.text | t(lang) }}</span>
+            <svg class="photo-note-arrow" viewBox="0 0 90 76" width="90" height="76" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">{% for d in p.note.paths %}<path data-draw d="{{ d }}"/>{% endfor %}</svg>
+          </div>
+        </figure>
+{%- endeach %}
+      </div>
+{%- elif day.insert == 'keen' %}
+{#- Keen Challenge card (inline: Nunjucks drops nested includes inside async loops) #}
+{%- set keen = stories['keen'] %}
+      <aside class="keen" data-reveal="pop" aria-label="{{ i18n.keenLabel }}">
+        <div class="keen-body">
+          <div class="keen-brand"><img width="480" height="173" class="keen-logo" src="/assets/keen-logo.png" alt="KEEN"><span class="keen-brand-text hand">{{ i18n.keenBrand }}</span></div>
+          <h3 class="keen-title">{{ keen.data.title }}</h3>
+          <div class="keen-story">{{ keen.content | safe }}</div>
+          <ul class="keen-tasks">
+            <li class="keen-task"><span class="keen-check"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-draw d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="keen-task-title">{{ keen.data.task }}</span></li>
+          </ul>
+          <a class="keen-btn" href="{{ i18n.keenHref }}" target="_blank" rel="noopener">{{ keen.data.button }} <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="keen-media">
+          <figure class="keen-photo">
+            <span class="keen-tape" aria-hidden="true"></span>
+            <div class="keen-photo-frame"><button type="button" class="zoom" data-group="story" aria-label="{{ i18n.enlarge | t(lang) }}: {{ keen.data.photoAlt }}">{% photo 'den3-keen.webp', keen.data.photoAlt, { sizes: '(max-width: 760px) 280px, 320px', cls: 'slot' } %}</button></div>
+            <figcaption class="keen-caption hand">{{ keen.data.caption }}</figcaption>
+          </figure>
+        </div>
+      </aside>
+{%- endif %}
+      <div class="story-text">{{ parts.after | safe }}</div>
+    </section>

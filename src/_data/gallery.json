@@ -1,0 +1,206 @@
+[
+  {
+    "src": "hero.webp",
+    "alt": {
+      "cs": "Brána České Kanady",
+      "en": "Gateway to Czech Canada"
+    },
+    "caption": {
+      "cs": "Brána České Kanady",
+      "en": "Gateway to Czech Canada"
+    },
+    "rotate": -2.5,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-200"
+    },
+    "delay": 0
+  },
+  {
+    "src": "den1-dron.webp",
+    "alt": {
+      "cs": "Dřevěný domeček",
+      "en": "Wooden house"
+    },
+    "caption": {
+      "cs": "Dřevěný domeček",
+      "en": "Wooden house"
+    },
+    "rotate": 1.8,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-2-300"
+    },
+    "delay": 110
+  },
+  {
+    "src": "den1-les.jpeg",
+    "alt": {
+      "cs": "Po žluté!",
+      "en": "Following the yellow!"
+    },
+    "caption": {
+      "cs": "Po žluté!",
+      "en": "Following the yellow!"
+    },
+    "rotate": -1.2,
+    "tape": {
+      "rotate": -5,
+      "color": "color-neutral-300"
+    },
+    "delay": 220
+  },
+  {
+    "src": "hero-2.webp",
+    "alt": {
+      "cs": "Do kopce",
+      "en": "Uphill we go"
+    },
+    "caption": {
+      "cs": "Do kopce",
+      "en": "Uphill we go"
+    },
+    "rotate": 2.6,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-200"
+    },
+    "delay": 0
+  },
+  {
+    "src": "den2-tricka.jpg",
+    "alt": {
+      "cs": "Malujeme trička",
+      "en": "Painting T-shirts"
+    },
+    "caption": {
+      "cs": "Malujeme trička",
+      "en": "Painting T-shirts"
+    },
+    "rotate": -1.8,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-2-300"
+    },
+    "delay": 110
+  },
+  {
+    "src": "hero-3.webp",
+    "alt": {
+      "cs": "Bílá trička, ready",
+      "en": "White T-shirts, ready"
+    },
+    "caption": {
+      "cs": "Bílá trička, ready",
+      "en": "White T-shirts, ready"
+    },
+    "rotate": 1.1,
+    "tape": {
+      "rotate": 4,
+      "color": "color-neutral-300"
+    },
+    "delay": 220
+  },
+  {
+    "src": "den2-hrad.jpg",
+    "alt": {
+      "cs": "Hrad Landštejn",
+      "en": "Landštejn Castle"
+    },
+    "caption": {
+      "cs": "Hrad Landštejn",
+      "en": "Landštejn Castle"
+    },
+    "rotate": -2.2,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-200"
+    },
+    "delay": 0
+  },
+  {
+    "src": "hero-4.webp",
+    "alt": {
+      "cs": "Lesní cesta",
+      "en": "Forest path"
+    },
+    "caption": {
+      "cs": "Lesní cesta",
+      "en": "Forest path"
+    },
+    "rotate": 2.2,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-2-300"
+    },
+    "delay": 110
+  },
+  {
+    "src": "den3-keen.webp",
+    "alt": {
+      "cs": "Keen challenge",
+      "en": "Keen Challenge"
+    },
+    "caption": {
+      "cs": "Keen challenge",
+      "en": "Keen Challenge"
+    },
+    "rotate": -0.8,
+    "tape": {
+      "rotate": -5,
+      "color": "color-neutral-300"
+    },
+    "delay": 220
+  },
+  {
+    "src": "hero-5.jpg",
+    "alt": {
+      "cs": "Noc v lese",
+      "en": "Night in the woods"
+    },
+    "caption": {
+      "cs": "Noc v lese",
+      "en": "Night in the woods"
+    },
+    "rotate": 1.6,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-200"
+    },
+    "delay": 0
+  },
+  {
+    "src": "den4-vecer.jpeg",
+    "alt": {
+      "cs": "Poslední večer",
+      "en": "Last evening"
+    },
+    "caption": {
+      "cs": "Poslední večer",
+      "en": "Last evening"
+    },
+    "rotate": -2.8,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-2-300"
+    },
+    "delay": 110
+  },
+  {
+    "src": "den4-cil.jpg",
+    "alt": {
+      "cs": "Cíl! Vysočany",
+      "en": "Finish! Vysočany"
+    },
+    "caption": {
+      "cs": "Cíl! Vysočany",
+      "en": "Finish! Vysočany"
+    },
+    "rotate": 1.3,
+    "tape": {
+      "rotate": 4,
+      "color": "color-neutral-300"
+    },
+    "delay": 220
+  }
+]

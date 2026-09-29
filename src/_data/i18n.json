@@ -1,0 +1,279 @@
+{
+  "locale": {
+    "cs": "cs_CZ",
+    "en": "en_GB"
+  },
+  "title": {
+    "cs": "Stříbrná expedice DOFE · Nová Bystřice → Vysočany",
+    "en": "Silver DOFE expedition · Nová Bystřice → Vysočany"
+  },
+  "description": {
+    "cs": "Čtyři dny pěšky z Nové Bystřice do Vysočan přes Landštejn a Slavonice – naše stříbrná expedice DOFE, 27.–30. srpna 2026.",
+    "en": "Four days on foot from Nová Bystřice to Vysočany via Landštejn and Slavonice – our Silver DOFE expedition, 27–30 August 2026."
+  },
+  "ogTitle": {
+    "cs": "Naše stříbrná DOFE expedice",
+    "en": "Our Silver DOFE expedition"
+  },
+  "ogDescription": {
+    "cs": "Čtyři dny pěšky z Nové Bystřice do Vysočan přes Landštejn, Slavonice a až k hranicím s Rakouskem.",
+    "en": "Four days on foot from Nová Bystřice to Vysočany, via Landštejn, Slavonice and all the way to the Austrian border."
+  },
+  "ogImageAlt": {
+    "cs": "Pět členů expedice s batohy před malovanou zdí „Brána České Kanady“",
+    "en": "The five expedition members with backpacks in front of the painted “Gateway to Czech Canada” wall"
+  },
+  "skip": {
+    "cs": "Přeskočit na obsah",
+    "en": "Skip to content"
+  },
+  "navLabel": {
+    "cs": "Hlavní menu",
+    "en": "Main menu"
+  },
+  "menuOpen": {
+    "cs": "Otevřít menu",
+    "en": "Open menu"
+  },
+  "menuClose": {
+    "cs": "Zavřít menu",
+    "en": "Close menu"
+  },
+  "brand": {
+    "cs": "Stříbrná expedice",
+    "en": "Silver Expedition"
+  },
+  "nav": [
+    {
+      "id": "trasa",
+      "label": {
+        "cs": "Trasa",
+        "en": "Route"
+      }
+    },
+    {
+      "id": "den-1",
+      "label": {
+        "cs": "Den 1",
+        "en": "Day 1"
+      }
+    },
+    {
+      "id": "den-2",
+      "label": {
+        "cs": "Den 2",
+        "en": "Day 2"
+      }
+    },
+    {
+      "id": "den-3",
+      "label": {
+        "cs": "Den 3",
+        "en": "Day 3"
+      }
+    },
+    {
+      "id": "den-4",
+      "label": {
+        "cs": "Den 4",
+        "en": "Day 4"
+      }
+    },
+    {
+      "id": "galerie",
+      "label": {
+        "cs": "Galerie",
+        "en": "Gallery"
+      }
+    }
+  ],
+  "langLabel": {
+    "cs": "Jazyk",
+    "en": "Language"
+  },
+  "heroTags": [
+    {
+      "cs": "27.–30. srpna 2026",
+      "en": "27–30 August 2026"
+    },
+    {
+      "cs": "Nová Bystřice → Vysočany",
+      "en": "Nová Bystřice → Vysočany"
+    }
+  ],
+  "dofeLink": {
+    "cs": "Co je DOFE?",
+    "en": "What is DOFE?"
+  },
+  "dofeUrl": {
+    "cs": "https://dofe.cz/",
+    "en": "https://www.dofe.org/"
+  },
+  "h1": [
+    {
+      "cs": "Naše",
+      "en": "Our"
+    },
+    {
+      "cs": "stříbrná",
+      "en": "silver"
+    },
+    {
+      "cs": "DOFE",
+      "en": "DOFE"
+    },
+    {
+      "cs": "expedice",
+      "en": "expedition"
+    }
+  ],
+  "lede": {
+    "cs": "Čtyři dny pěšky z Nové Bystřice do Vysočan, přes Landštejn, Slavonice a až k hranicím s Rakouskem.",
+    "en": "Four days on foot from Nová Bystřice to Vysočany, via Landštejn, Slavonice and all the way to the Austrian border."
+  },
+  "signpostStart": {
+    "cs": "start · 27. 8. 2026",
+    "en": "start · 27 Aug 2026"
+  },
+  "photoN": {
+    "cs": "Fotka",
+    "en": "Photo"
+  },
+  "prevPhoto": {
+    "cs": "Předchozí fotka",
+    "en": "Previous photo"
+  },
+  "nextPhoto": {
+    "cs": "Další fotka",
+    "en": "Next photo"
+  },
+  "pause": {
+    "cs": "Pozastavit prezentaci",
+    "en": "Pause slideshow"
+  },
+  "play": {
+    "cs": "Spustit prezentaci",
+    "en": "Play slideshow"
+  },
+  "carouselLabel": {
+    "cs": "Fotky z cesty",
+    "en": "Photos from the trip"
+  },
+  "badge": {
+    "top": {
+      "cs": "Stříbrná",
+      "en": "Silver"
+    },
+    "bottom": {
+      "cs": "úroveň",
+      "en": "level"
+    }
+  },
+  "stats": [
+    {
+      "value": 82.9,
+      "dec": 1,
+      "unit": "km",
+      "label": {
+        "cs": "celkem pěšky",
+        "en": "walked in total"
+      }
+    },
+    {
+      "value": 4,
+      "dec": 0,
+      "label": {
+        "cs": "dny, 3 noci venku",
+        "en": "days, 3 nights outdoors"
+      }
+    },
+    {
+      "value": 5,
+      "dec": 0,
+      "label": {
+        "cs": "členů",
+        "en": "members"
+      }
+    }
+  ],
+  "routeTitle": {
+    "cs": "Trasa",
+    "en": "Route"
+  },
+  "routeIntro": {
+    "cs": "Praha → Veselí nad Lužnicí → Jindřichův Hradec → <strong>Nová Bystřice</strong> · pěšky · <strong>Vysočany</strong> → Moravské Budějovice → Praha",
+    "en": "Prague → Veselí nad Lužnicí → Jindřichův Hradec → <strong>Nová Bystřice</strong> · on foot · <strong>Vysočany</strong> → Moravské Budějovice → Prague"
+  },
+  "day": {
+    "cs": "Den",
+    "en": "Day"
+  },
+  "mapTitle": {
+    "cs": "Trasa expedice v Google Maps",
+    "en": "Expedition route in Google Maps"
+  },
+  "mapSrc": "https://maps.google.com/maps?saddr=Nov%C3%A1%20Byst%C5%99ice&daddr=Kl%C3%A1%C5%A1ter%2C%20Nov%C3%A1%20Byst%C5%99ice+to:Land%C5%A1tejn+to:Slavonice+to:Camp%20Velo%2C%20Vrat%C4%9Bn%C3%ADn+to:Podhrad%C3%AD%20nad%20Dyj%C3%AD+to:Vyso%C4%8Dany%2C%20okres%20Znojmo&dirflg=w&output=embed",
+  "mapButton": {
+    "cs": "Otevřít v Google Maps",
+    "en": "Open in Google Maps"
+  },
+  "mapHref": "https://www.google.com/maps/dir/?api=1&origin=Nov%C3%A1%20Byst%C5%99ice&destination=Vyso%C4%8Dany%2C%20okres%20Znojmo&waypoints=Kl%C3%A1%C5%A1ter%2C%20Nov%C3%A1%20Byst%C5%99ice%7CLand%C5%A1tejn%7CSlavonice%7CCamp%20Velo%2C%20Vrat%C4%9Bn%C3%ADn%7CPodhrad%C3%AD%20nad%20Dyj%C3%AD&travelmode=walking",
+  "atAGlance": {
+    "cs": "Den {n} v kostce",
+    "en": "Day {n} at a glance"
+  },
+  "finishLabel": {
+    "cs": "Cíl",
+    "en": "Finish"
+  },
+  "keenBrand": "DOFE Keen challenge 2026",
+  "keenLabel": "DOFE Keen challenge",
+  "keenHref": "https://dofe.cz/en/pro-dofaky/keenchallenge2026",
+  "galleryTitle": {
+    "cs": "Galerie",
+    "en": "Gallery"
+  },
+  "galleryHint": {
+    "cs": "12 fotek z cesty · klikni pro zvětšení",
+    "en": "12 photos from the trip · click to enlarge"
+  },
+  "enlarge": {
+    "cs": "Zvětšit fotku",
+    "en": "Enlarge photo"
+  },
+  "lightboxLabel": {
+    "cs": "Prohlížeč fotek",
+    "en": "Photo viewer"
+  },
+  "close": {
+    "cs": "Zavřít",
+    "en": "Close"
+  },
+  "footerLine": {
+    "cs": "Stříbrná expedice · srpen 2026",
+    "en": "Silver Expedition · August 2026"
+  },
+  "footerDofe": {
+    "cs": "Více o DOFE na dofe.cz",
+    "en": "More about DOFE at dofe.org"
+  },
+  "logoAlt": "The Duke of Edinburgh's Award",
+  "toTop": {
+    "cs": "Zpět nahoru",
+    "en": "Back to top"
+  },
+  "madeBy": {
+    "cs": "Web vytvořil",
+    "en": "Website by"
+  },
+  "notFound": {
+    "title": {
+      "cs": "Stránka nenalezena",
+      "en": "Page not found"
+    },
+    "heading": "Tady stezka končí",
+    "text": "Tahle stránka neexistuje. · This page doesn’t exist.",
+    "note": "Zabloudili jsme? · Lost the trail?",
+    "back": "Zpět na expedici · Back to the expedition"
+  }
+}

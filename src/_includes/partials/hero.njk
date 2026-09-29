@@ -1,0 +1,44 @@
+  <header class="hero">
+    <div class="hero-tags" data-reveal="up" data-hero style="opacity:0">
+      <span class="hero-tag tag tag-accent-2">{{ i18n.heroTags[0] | t(lang) }}</span>
+      <span class="hero-tag tag tag-neutral">{{ i18n.heroTags[1] | t(lang) }}</span>
+      <a class="dofe-link" href="{{ i18n.dofeUrl | t(lang) }}" target="_blank" rel="noopener">{{ i18n.dofeLink | t(lang) }} <span aria-hidden="true">↗</span></a>
+    </div>
+    <h1 class="hero-title" data-stagger>
+{%- for word in i18n.h1 %}{% if not loop.first %} {% endif %}<span data-reveal="word" data-delay="90" data-hero style="opacity:0">{{ word | t(lang) }}</span>{% endfor -%}
+    </h1>
+    <p class="hero-lede" data-reveal="up" data-delay="540" data-hero style="opacity:0">{{ i18n.lede | t(lang) | safe }}</p>
+    <div class="hero-media">
+      <div class="signpost" data-reveal="pop" data-delay="900" data-hero style="opacity:0">
+        <div class="sp-tilt" data-sp-tilt>
+          <span class="sp-pole" aria-hidden="true"></span><span class="sp-grass" aria-hidden="true"></span>
+          <div class="sp-plate"><span class="sp-plate-name">Nová Bystřice</span><span class="sp-plate-sub">{{ i18n.signpostStart | t(lang) }}</span></div>
+{%- for a in signpost %}
+          <a class="sp-arrow{% if a.left %} sp-left{% endif %}" href="{{ a.href }}" style="--trail:{{ a.trail }}" aria-label="{{ a.aria | t(lang) }}"><span class="sp-mark" aria-hidden="true"></span><span class="sp-name">{{ a.name }}</span><span class="sp-km">{{ a.km | t(lang) }} km</span></a>
+{%- endfor %}
+        </div>
+      </div>
+      <section class="carousel" data-reveal="img" data-delay="680" data-hero data-carousel style="opacity:0" aria-roledescription="carousel" aria-label="{{ i18n.carouselLabel | t(lang) }}">
+{%- asyncEach s in slides %}
+        <div class="slide{% if loop.first %} on{% endif %}" data-slide="{{ loop.index0 }}" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ slides.length }}"{% if not loop.first %} aria-hidden="true" inert{% endif %}>
+          <button type="button" class="zoom" data-group="story" aria-label="{{ i18n.enlarge | t(lang) }}: {{ s.alt | t(lang) }}">{% photo s.src, s.alt | t(lang), { sizes: '(max-width: 1120px) calc(100vw - 48px), 1072px', cls: 'slot', loading: ('eager' if loop.first else 'lazy'), fetchpriority: ('high' if loop.first else '') } %}</button>
+        </div>
+{%- endeach %}
+        <div class="carousel-bar">
+          <div class="carousel-dots">
+            <button type="button" class="carousel-pause" data-pause aria-pressed="false" aria-label="{{ i18n.pause | t(lang) }}" data-label-pause="{{ i18n.pause | t(lang) }}" data-label-play="{{ i18n.play | t(lang) }}"><svg class="i-pause" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx="1" fill="currentColor"/><rect x="7.4" y="1.5" width="2.6" height="9" rx="1" fill="currentColor"/></svg><svg class="i-play" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.8v8.4a.6.6 0 0 0 .9.5l6.6-4.2a.6.6 0 0 0 0-1L3.9 1.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg></button>
+{%- for s in slides %}
+            <button type="button" class="slide-dot" data-go="{{ loop.index0 }}" aria-label="{{ i18n.photoN | t(lang) }} {{ loop.index }}"><span data-fill="{{ loop.index0 }}"></span></button>
+{%- endfor %}
+          </div>
+          <div class="carousel-arrows">
+            <button type="button" class="round-btn" data-prev aria-label="{{ i18n.prevPhoto | t(lang) }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+            <button type="button" class="round-btn is-accent" data-next aria-label="{{ i18n.nextPhoto | t(lang) }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </section>
+      <div class="badge" data-badge data-hero style="opacity:0" aria-hidden="true">
+        <div class="badge-coin"><span class="badge-top">{{ i18n.badge.top | t(lang) }}</span><span class="badge-bottom">{{ i18n.badge.bottom | t(lang) }}</span></div>
+      </div>
+    </div>
+  </header>

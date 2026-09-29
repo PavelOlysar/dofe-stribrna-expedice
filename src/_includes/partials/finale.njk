@@ -1,0 +1,6 @@
+{%- set zaver = stories['zaver'] %}
+    <section class="finale" data-reveal="pop" aria-label="{{ i18n.finishLabel | t(lang) }}">
+      <div class="finale-kicker hand">{{ zaver.data.kicker }}</div>
+      <div class="finale-quote">{{ zaver.content | safe }}</div>
+      <div class="finale-sign-off hand">{{ zaver.data.signoff }}</div>
+    </section>

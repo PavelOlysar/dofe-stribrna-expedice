@@ -1,0 +1,44 @@
+[
+  {
+    "href": "#den-1",
+    "left": false,
+    "trail": "#e3b23c",
+    "name": "Landštejn",
+    "km": {
+      "cs": "18,9",
+      "en": "18.9"
+    },
+    "aria": {
+      "cs": "Landštejn, 18,9 km – přejít na den 1",
+      "en": "Landštejn, 18.9 km – go to day 1"
+    }
+  },
+  {
+    "href": "#den-2",
+    "left": true,
+    "trail": "#c8453b",
+    "name": "Slavonice",
+    "km": {
+      "cs": "45,6",
+      "en": "45.6"
+    },
+    "aria": {
+      "cs": "Slavonice, 45,6 km – přejít na den 2",
+      "en": "Slavonice, 45.6 km – go to day 2"
+    }
+  },
+  {
+    "href": "#den-4",
+    "left": false,
+    "trail": "#4f8a4a",
+    "name": "Vysočany",
+    "km": {
+      "cs": "82,9",
+      "en": "82.9"
+    },
+    "aria": {
+      "cs": "Vysočany, 82,9 km – přejít na den 4",
+      "en": "Vysočany, 82.9 km – go to day 4"
+    }
+  }
+]

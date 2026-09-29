@@ -1,0 +1,377 @@
+/* Page styles for the expedition story. Components are in page order: base, nav, hero, stats, route,
+   story days, Keen card, finale, gallery, footer, lightbox, trail pill, then phone tweaks.
+   Hover-only effects sit inside @media (hover:hover) so they never get stuck after a tap. */
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+:root{--font-heading:"Young Serif", Georgia, serif;--ease-bounce:cubic-bezier(.34,1.56,.64,1)}
+html{scroll-behavior:smooth;background:var(--color-bg)}
+/* The design is light-only. Some phone browsers (Samsung Internet, Chrome's auto dark mode) darken
+   pages that don't handle dark mode themselves, so we "handle" it by staying light. */
+@media (prefers-color-scheme:dark){:root{color-scheme:only light;--color-bg:#f5ead8;--color-text:#201e1d}html,body{background:#f5ead8;color:#201e1d}}
+/* Browsers without overflow:clip (Safari < 16): stop wide decorations from causing sideways scroll */
+@supports not (overflow-x:clip){html{overflow-x:hidden}}
+body{margin:0;background:var(--color-bg)}
+[hidden]{display:none !important}
+a{color:var(--color-accent-700)}
+a:hover{color:var(--color-accent-800)}
+#app{position:relative;z-index:0;min-height:100vh;overflow-x:clip;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:24px}
+.section-title{font-size:clamp(34px,4.5vw,52px);margin:0}
+.muted{font-size:15px;color:var(--color-neutral-700)}
+.hand{font-family:'Delicious Handrawn', cursive;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+@keyframes silverSheen{0%{background-position:0% 0%}100%{background-position:100% 100%}}
+
+/* Paper grain over everything: one pre-rendered tile (was six live SVG noise filters) plus the
+   faint overall tint the old base noise added */
+.grain{position:fixed;inset:0;z-index:50;pointer-events:none;background:url(../assets/grain.webp) 0 0 / 530px 530px, linear-gradient(rgb(102 77 51 / .033), rgb(102 77 51 / .033))}
+
+/* Keyboard "skip to content" link: hidden until focused */
+.skip-link{position:fixed;left:16px;top:-60px;z-index:100;padding:10px 16px;border-radius:999px;background:var(--color-text);color:var(--color-bg);font-weight:700;text-decoration:none;transition:top .2s}
+.skip-link:focus{top:calc(12px + env(safe-area-inset-top, 0px));color:var(--color-bg)}
+
+/* Photos (hero, story, Keen, gallery) are buttons that open the lightbox */
+.zoom{display:block;width:100%;height:100%;margin:0;padding:0;border:0;background:none;font:inherit;color:inherit;border-radius:28px;cursor:zoom-in}
+.zoom:focus-visible{outline:3px solid var(--color-accent);outline-offset:4px}
+.zoom picture{display:block;width:100%;height:100%}
+.slot{display:block;width:100%;height:100%;object-fit:cover;border-radius:28px;background:var(--color-surface)}
+
+/* Quiet "about DOFE" links (hero + footer) */
+.dofe-link{align-self:center;font-size:13px;color:var(--color-neutral-700);text-decoration:underline;text-decoration-color:var(--color-neutral-400);text-underline-offset:3px;transition:color .2s, text-decoration-color .2s}
+.dofe-link:hover{color:var(--color-accent-700);text-decoration-color:currentColor}
+
+/* ── Navigation: one row on desktop; ≤960px collapses into a hamburger menu ── */
+.site-nav{position:sticky;top:0;z-index:5;background:rgb(245 234 216 / .92);background:color-mix(in srgb, var(--color-bg) 92%, transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.nav-bar{max-width:1120px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.nav-brand-link{display:flex;align-items:center;gap:14px;margin-right:auto;text-decoration:none;color:var(--color-text)}
+.nav-brand-link:hover{color:var(--color-text)}
+.nav-logo{height:30px;width:auto;display:block}
+.nav-divider{width:2px;height:22px;border-radius:2px;background:var(--color-neutral-300)}
+.nav-brand-text{font-family:var(--font-heading);font-size:17px}
+.nav-menu{display:contents}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-link{font-size:14px;padding:6px 12px;border-radius:999px;color:var(--color-text);text-decoration:none;transition:background .25s, color .25s}
+.nav-link:hover{color:var(--color-text)}
+.nav-link.is-active{background:var(--color-accent-200);color:var(--color-accent-900)}
+@media (hover:hover){.nav-link:not(.is-active):hover{background:var(--color-surface)}}
+.nav-lang{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--color-surface)}
+.lang-link{font-size:13px;line-height:normal;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:999px;color:var(--color-text);text-decoration:none;transition:background .25s}
+.lang-link:hover{color:var(--color-text)}
+.lang-link[aria-current="page"]{background:var(--color-accent-200)}
+@media (hover:hover){.lang-link:not([aria-current]):hover{background:var(--color-accent-100)}}
+.nav-toggle{display:none}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px}
+.progress-bar{height:100%;width:100%;background:var(--color-accent);border-radius:0 999px 999px 0;transform-origin:left center;transform:scaleX(0)}
+@media (max-width:960px){
+  .nav-bar{flex-wrap:nowrap;gap:12px;padding:12px 16px}
+  .nav-brand-link{min-width:0}
+  .nav-brand-text{white-space:nowrap;font-size:16px}
+  .nav-toggle{display:grid;place-content:center;gap:5px;flex:none;width:44px;height:44px;border:0;border-radius:50%;background:var(--color-surface);color:var(--color-text);cursor:pointer;transition:background .25s}
+  .nav-toggle:hover{background:var(--color-accent-100)}
+  .nav-toggle span{display:block;width:20px;height:2.5px;border-radius:2px;background:currentColor;transition:transform .35s var(--ease-bounce), opacity .2s}
+  .site-nav.open .nav-toggle{background:var(--color-accent-200)}
+  .site-nav.open .nav-toggle span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  .site-nav.open .nav-toggle span:nth-child(2){opacity:0}
+  .site-nav.open .nav-toggle span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  .nav-menu{display:flex;flex-direction:column;gap:14px;position:absolute;left:0;right:0;top:100%;padding:8px 16px 18px;background:var(--color-bg);border-radius:0 0 var(--radius-lg) var(--radius-lg);box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s ease, transform .35s var(--ease-bounce), visibility 0s linear .35s}
+  .site-nav.open .nav-menu{opacity:1;visibility:visible;transform:none;transition:opacity .25s ease, transform .35s var(--ease-bounce), visibility 0s}
+  .nav-links{flex-direction:column;flex-wrap:nowrap;gap:2px}
+  .nav-link{font-size:17px;padding:12px 16px;border-radius:14px}
+  .nav-lang{align-self:flex-start}
+  .lang-link{font-size:14px;padding:8px 16px}
+}
+@media (max-width:379px){.nav-divider,.nav-brand-text{display:none}}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+.hero{position:relative;max-width:1120px;margin:0 auto;padding:56px 24px 0}
+.hero-tags{position:relative;z-index:1;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.hero-tag{font-size:13px;padding:5px 14px;transition:transform .45s var(--ease-bounce), background .25s}
+@media (hover:hover){.hero-tag:nth-child(1):hover{transform:rotate(4deg) scale(1.06)}.hero-tag:nth-child(2):hover{transform:rotate(-4deg) scale(1.06)}}
+.hero-title{position:relative;z-index:1;font-size:clamp(44px,7vw,88px);line-height:1.02;margin:0 0 28px;text-wrap:balance}
+.hero-title > span{display:inline-block}
+.hero-title > span:last-child{color:var(--color-accent-700)}
+.hero-lede{position:relative;z-index:1;font-size:20px;line-height:1.55;max-width:560px;margin:0 0 64px;color:var(--color-neutral-800);text-wrap:pretty}
+.hero-media{position:relative;z-index:1}
+@media (min-width:901px){.hero-title{max-width:calc(100% - 330px)}.hero-lede{max-width:min(560px, calc(100% - 440px))}}
+@media (min-width:901px) and (max-width:1000px){.hero-title{max-width:calc(100% - 380px)}}
+
+/* Hero carousel */
+.carousel{position:relative;z-index:1;width:100%;aspect-ratio:16/8;border-radius:var(--radius-lg);overflow:hidden;touch-action:pan-y}
+.slide{position:absolute;inset:0;opacity:0;transform:scale(1.04);pointer-events:none;transition:opacity .8s ease, transform 1.2s ease}
+.slide.on{opacity:1;transform:scale(1);pointer-events:auto}
+.carousel-bar{position:absolute;left:0;right:0;bottom:0;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
+.carousel-dots{display:flex;align-items:center;gap:8px;pointer-events:auto;background:rgb(245 234 216 / .8);background:color-mix(in srgb, var(--color-bg) 80%, transparent);padding:8px 10px;border-radius:999px}
+.carousel-pause{flex:none;display:grid;place-items:center;width:26px;height:26px;margin:-6px 2px -6px -4px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--color-text);cursor:pointer;transition:background .25s}
+.carousel-pause:hover{background:var(--color-surface)}
+.carousel-pause:focus-visible{outline:2px solid var(--color-accent);outline-offset:1px}
+.carousel-pause .i-play{display:none}
+.carousel-pause[aria-pressed="true"] .i-pause{display:none}
+.carousel-pause[aria-pressed="true"] .i-play{display:block}
+.slide-dot{position:relative;border:0;padding:0;cursor:pointer;height:6px;width:36px;border-radius:999px;overflow:hidden;background:var(--color-neutral-300)}
+.slide-dot:hover{background:var(--color-neutral-400)}
+.slide-dot > span{display:block;width:100%;height:100%;border-radius:999px;background:var(--color-accent);transform-origin:left center;transform:scaleX(0)}
+.carousel-arrows{display:flex;gap:8px;pointer-events:auto}
+.round-btn{width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:var(--color-bg);color:var(--color-text);box-shadow:var(--shadow-sm);transition:transform .45s var(--ease-bounce), background .25s}
+.round-btn.is-accent{background:var(--color-accent);color:var(--color-bg)}
+@media (hover:hover){.round-btn:hover{transform:rotate(-8deg) scale(1.08);background:var(--color-accent-100)}.round-btn.is-accent:hover{transform:rotate(8deg) scale(1.08);background:var(--color-accent-600)}}
+
+/* Silver badge on the corner of the carousel */
+.badge{position:absolute;top:-44px;left:-20px;z-index:10;width:104px;height:104px}
+.badge-coin{position:relative;width:104px;height:104px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg);transition:transform .45s var(--ease-bounce);
+  background:linear-gradient(125deg, #dfe1e3 0%, #cdd0d3 30%, #ebedee 50%, #cbced1 70%, #dcdee0 100%);
+  background:linear-gradient(125deg, oklch(0.9 0.004 250) 0%, oklch(0.84 0.006 250) 30%, oklch(0.94 0.003 250) 50%, oklch(0.83 0.006 250) 70%, oklch(0.89 0.005 250) 100%);
+  background-size:140% 140%;animation:silverSheen 9s ease-in-out infinite alternate;
+  color:#2f3338;color:oklch(0.3 0.01 250);
+  box-shadow:inset 0 2px 3px #fff, inset 0 -3px 6px rgb(80 84 90 / .35), 0 0 0 3px #d3d5d8, var(--shadow-sm);
+  box-shadow:inset 0 2px 3px oklch(1 0 0 / .8), inset 0 -3px 6px oklch(0.45 0.01 250 / .35), 0 0 0 3px oklch(0.86 0.006 250), var(--shadow-sm)}
+@media (hover:hover){.badge-coin:hover{transform:rotate(8deg) scale(1.08)}}
+.badge-top{font-family:var(--font-heading);font-size:18px;line-height:1}
+.badge-bottom{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+
+/* Hero signpost (Czech hiking "rozcestník"): stands on the hero photo, arrows point both ways,
+   leans slightly only when the mouse is near, arrows link to the days */
+.signpost{position:absolute;right:-1%;bottom:100%;width:360px;z-index:3;margin-bottom:64px}
+.sp-tilt{position:relative;display:flex;flex-direction:column;align-items:center;gap:9px;padding-bottom:34px;transform-origin:50% 100%;transition:transform .7s var(--ease-bounce)}
+.sp-pole{position:absolute;left:calc(50% - 7px);top:12px;bottom:0;width:14px;border-radius:7px 7px 3px 3px;background:repeating-linear-gradient(180deg, transparent 0 22px, rgb(0 0 0 / .07) 22px 24px), linear-gradient(90deg, #7a5a3c, #a07a55 45%, #6b4d33)}
+.sp-grass{position:absolute;left:calc(50% - 22px);bottom:-2px;width:44px;height:16px;background:radial-gradient(ellipse at 20% 100%, var(--color-accent-2-500) 0 45%, transparent 47%), radial-gradient(ellipse at 50% 100%, var(--color-accent-2-600) 0 55%, transparent 57%), radial-gradient(ellipse at 80% 100%, var(--color-accent-2-500) 0 45%, transparent 47%)}
+.sp-plate{position:relative;display:flex;flex-direction:column;align-items:center;padding:9px 16px 10px;border-radius:10px;background:var(--color-neutral-100);box-shadow:var(--shadow-md), inset 0 0 0 2px var(--color-neutral-300)}
+.sp-plate-name{font-family:var(--font-heading);font-size:18px;line-height:1.1}
+.sp-plate-sub{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-neutral-600);margin-top:3px}
+.sp-arrow{--tilt:-1.5deg;--dir:1;position:relative;display:flex;align-items:center;gap:9px;width:190px;align-self:flex-start;margin-left:calc(50% - 14px);padding:9px 28px 9px 14px;text-decoration:none;color:var(--color-text);background:var(--color-neutral-100);clip-path:polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);filter:drop-shadow(0 3px 6px rgb(46 43 37 / .22));transform-origin:14px 50%;transform:rotate(var(--tilt));transition:transform .5s var(--ease-bounce), background .25s}
+.sp-arrow.sp-left{--tilt:1.5deg;--dir:-1;align-self:flex-end;margin-left:0;margin-right:calc(50% - 14px);flex-direction:row-reverse;padding:9px 14px 9px 28px;clip-path:polygon(18px 0, 100% 0, 100% 100%, 18px 100%, 0 50%);transform-origin:calc(100% - 14px) 50%}
+.sp-arrow:nth-of-type(3){--tilt:1deg}
+.sp-arrow:hover,.sp-arrow:focus-visible{color:var(--color-text);background:var(--color-accent-100);transform:rotate(calc(var(--tilt) - 4deg * var(--dir))) translateX(calc(6px * var(--dir)))}
+.sp-arrow:active{transform:rotate(var(--tilt)) translateX(calc(10px * var(--dir))) scale(.98)}
+.sp-mark{flex:none;width:22px;height:16px;border-radius:3px;background:linear-gradient(#fff 0 33%, var(--trail) 33% 67%, #fff 67%);box-shadow:0 0 0 1px var(--color-neutral-300);transition:transform .5s var(--ease-bounce)}
+.sp-arrow:focus-visible .sp-mark,.sp-arrow:hover .sp-mark{transform:scale(1.2) rotate(-6deg)}
+.sp-name{font-weight:700;font-size:15px;line-height:1.1}
+.sp-km{margin-left:auto;font-size:13px;color:var(--color-neutral-700);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sp-left .sp-km{margin-left:0;margin-right:auto}
+@media (max-width:900px){.signpost{display:none}}
+
+/* ── Stats ─────────────────────────────────────────────────────────────── */
+.stats{padding-top:40px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stat-card{background:var(--color-surface);border-radius:var(--radius-lg);padding:24px 26px;transition:transform .45s var(--ease-bounce), background .25s}
+@media (hover:hover){.stat-card:hover{transform:translateY(-6px) rotate(-1.5deg);background:var(--color-accent-100)}}
+.stat-value{font-family:var(--font-heading);font-size:44px;line-height:1}
+.stat-unit{font-size:22px;margin-left:4px}
+.stat-label{font-size:14px;margin-top:8px;color:var(--color-neutral-800)}
+
+/* ── Route: day cards + map ────────────────────────────────────────────── */
+.route{padding-top:88px;scroll-margin-top:72px}
+.route .section-title{font-size:40px;margin:0 0 10px}
+.route-intro{margin:0 0 32px}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.route-card{display:block;text-decoration:none;color:var(--color-text);background:var(--color-neutral-100);border-radius:var(--radius-lg);padding:22px 24px 24px;transition:transform .45s var(--ease-bounce), background .25s}
+.route-card:hover{color:var(--color-text)}
+@media (hover:hover){.route-card:hover{background:var(--color-accent-100);transform:translateY(-8px) rotate(-1deg)}}
+.route-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:18px}
+.route-card-day{font-family:var(--font-heading);font-size:22px}
+.route-card-km{font-size:14px;font-weight:700;color:var(--color-accent-700)}
+.stops{position:relative;display:flex;flex-direction:column;gap:14px;padding-left:22px}
+.stops-line{position:absolute;left:6px;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--color-accent-300);transform-origin:top center}
+.stop{position:relative;font-size:15px;line-height:1.3}
+.stop::before{content:"";position:absolute;left:-22px;top:3px;width:15px;height:15px;border-radius:50%;background:var(--color-neutral-400);box-shadow:0 0 0 3px var(--color-neutral-100)}
+.stop--end::before{background:var(--color-accent)}
+.stop--camp::before{background:var(--color-accent-2)}
+.stop--end .stop-name,.stop--camp .stop-name{font-weight:700}
+.stop-sub{display:block;font-size:12px;color:var(--color-neutral-700)}
+.route-card-foot{margin-top:18px;font-size:12px;color:var(--color-neutral-700)}
+.route-map-wrap{position:relative;margin-top:12px;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.route-map{position:relative;align-self:stretch;border-radius:var(--radius-lg);overflow:hidden;background:var(--color-neutral-100);aspect-ratio:16/8;min-height:360px}
+.route-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:sepia(.18) saturate(.9)}
+.route-map-btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--color-bg);box-shadow:var(--shadow-md);transition:transform .45s var(--ease-bounce), background .25s}
+.route-map-btn:hover{color:var(--color-bg)}
+@media (hover:hover){.route-map-btn:hover{transform:rotate(-3deg) scale(1.04);background:var(--color-accent-600)}}
+@media (max-width:640px){
+  .route-map{aspect-ratio:auto;min-height:0;height:clamp(380px, 125vw, 75vh)}
+  .route-map-btn{display:flex;justify-content:center;align-self:stretch;padding-block:13px}
+}
+
+/* ── Story ─────────────────────────────────────────────────────────────── */
+.story{padding-top:96px;padding-bottom:40px}
+/* Two thirds wide on wide screens, full width once that would be narrower than 652px */
+.story-text{max-width:max(66.667%, calc((652px - 100%) * 999));font-size:19px;line-height:1.72;text-wrap:pretty}
+.story-text p,.day-row .prose p{margin:0 0 22px}
+.day{margin-top:88px;scroll-margin-top:72px}
+.day-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.day-tag{font-size:13px;padding:5px 14px}
+.day-trail{font-size:14px;color:var(--color-neutral-700)}
+.day-title{font-size:clamp(34px,4.5vw,52px);margin:0 0 32px}
+
+/* Day row: story text + sticky "day at a glance" card in the right column */
+.day-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(240px,1fr);gap:56px;align-items:start}
+.day-row .prose{font-size:19px;line-height:1.72;text-wrap:pretty}
+@media (max-width:860px){.day-row{grid-template-columns:1fr;gap:8px}.day-row .glance{position:static;margin-bottom:22px}}
+.glance{position:sticky;top:96px;margin-top:6px;background:var(--color-neutral-100);border-radius:var(--radius-lg);padding:22px 22px 12px;box-shadow:var(--shadow-sm);transform:rotate(1.2deg);transition:transform .45s var(--ease-bounce), box-shadow .3s}
+@media (hover:hover){.glance:hover{transform:rotate(0deg) translateY(-4px);box-shadow:var(--shadow-md)}}
+.glance-head{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-size:19px;margin-bottom:10px}
+.glance-trail{width:26px;height:14px;border-radius:3px;background:linear-gradient(#fff 0 33%, var(--trail) 33% 67%, #fff 67%);box-shadow:0 0 0 1px var(--color-neutral-300);flex:none}
+.glance ul{list-style:none;margin:0;padding:0}
+.glance-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--color-divider)}
+.glance-icon{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--color-accent-2-200);color:var(--color-accent-2-800);transition:transform .45s var(--ease-bounce), background .25s}
+@media (hover:hover){.glance-row:hover .glance-icon{transform:rotate(-12deg) scale(1.15);background:var(--color-accent-200);color:var(--color-accent-800)}}
+.glance-label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-neutral-600)}
+.glance-value{display:block;font-size:15px;line-height:1.35}
+
+/* Photo pair with handwritten notes + drawn arrows above each photo */
+.photo-pair{margin:136px 0 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:120px 40px}
+.story-photo{position:relative;aspect-ratio:4/5;margin:0;transition:transform .45s var(--ease-bounce)}
+@media (hover:hover){.story-photo:nth-child(odd):hover{transform:rotate(-2deg) scale(1.02)}.story-photo:nth-child(even):hover{transform:rotate(2deg) scale(1.02)}}
+.photo-note{position:absolute;top:-92px;width:0;height:0;z-index:3;pointer-events:none;color:var(--color-text)}
+.photo-note--left{left:var(--x)}
+.photo-note--right{right:var(--x)}
+.photo-note-text{position:absolute;top:0;display:block;white-space:nowrap;font-size:30px;transform:rotate(var(--r))}
+.photo-note--left .photo-note-text{left:0}
+.photo-note--right .photo-note-text{right:0}
+.photo-note-arrow{position:absolute;top:28px;overflow:visible}
+.photo-note--left .photo-note-arrow{left:var(--ax)}
+.photo-note--right .photo-note-arrow{right:var(--ax)}
+
+/* Glossary terms with a tooltip */
+.term{position:relative;cursor:help;border-bottom:2px dotted var(--color-accent-400);outline:none}
+.term::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 10px);width:max-content;max-width:min(260px,70vw);padding:8px 12px;border-radius:12px;background:var(--color-neutral-900);color:var(--color-neutral-100);font-size:14px;line-height:1.4;font-weight:400;text-align:left;box-shadow:var(--shadow-md);opacity:0;transform:translate(-50%,6px) scale(.96);pointer-events:none;transition:opacity .2s, transform .35s var(--ease-bounce);z-index:4}
+.term:hover::after,.term:focus-visible::after,.term:focus::after{opacity:1;transform:translate(-50%,0) scale(1)}
+.term:hover,.term:focus{border-bottom-color:var(--color-accent)}
+
+/* ── Keen Challenge card (day 3) ───────────────────────────────────────── */
+.keen{margin:88px 0 96px;padding:clamp(32px,7vw,80px) clamp(28px,6.5vw,76px);border-radius:calc(var(--radius-lg) * 1.4);background:var(--color-accent-2-800);background:linear-gradient(135deg, var(--color-accent-2-900) 0%, var(--color-accent-2-800) 45%, var(--color-accent-2-700) 100%);color:var(--color-neutral-100);display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(44px,7vw,96px);align-items:center;box-shadow:var(--shadow-md)}
+.keen-brand{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px}
+.keen-logo{height:40px;width:auto}
+.keen-brand-text{font-size:28px;color:var(--color-accent-2-300);transform:rotate(-3deg)}
+.keen-title{font-family:var(--font-heading);font-size:clamp(28px,3.4vw,38px);line-height:1.15;margin:32px 0 22px;color:var(--color-neutral-100)}
+.keen-story{margin:0 0 36px;font-size:18px;line-height:1.7;color:rgb(249 244 237 / .88);text-wrap:pretty}
+.keen-story p{margin:0}
+.keen-tasks{list-style:none;margin:0 0 40px;padding:0;display:grid;gap:12px}
+.keen-task{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:16px;background:rgb(249 244 237 / .07);transition:background .25s}
+@media (hover:hover){.keen-task:hover{background:rgb(249 244 237 / .12)}}
+.keen-check{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--color-accent-2-300);color:var(--color-accent-2-900)}
+.keen-task-title{display:block;font-size:16px;font-weight:600;line-height:1.3}
+.keen-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;background:var(--color-neutral-100);color:var(--color-accent-2-900);text-decoration:none;font-family:var(--font-heading);font-size:15px;transition:transform .45s var(--ease-bounce), background .25s}
+.keen-btn:hover{color:var(--color-accent-2-900)}
+@media (hover:hover){.keen-btn:hover{background:var(--color-accent-2-200);transform:translateY(-2px) scale(1.03)}}
+.keen-media{justify-self:center;width:min(100%,320px)}
+.keen-photo{position:relative;margin:0;padding:12px 12px 16px;border-radius:20px;background:var(--color-neutral-100);box-shadow:0 14px 32px rgb(0 0 0 / .25);transform:rotate(2deg);transition:transform .5s var(--ease-bounce)}
+@media (hover:hover){.keen-photo:hover{transform:rotate(0deg) scale(1.02)}}
+.keen-photo-frame{aspect-ratio:3/4}
+.keen-photo .zoom,.keen-photo .slot{border-radius:12px}
+.keen-tape{position:absolute;top:-11px;left:calc(50% - 40px);width:80px;height:22px;border-radius:4px;background:var(--color-accent-200);opacity:.9;transform:rotate(-4deg)}
+.keen-caption{margin:14px 0 2px;text-align:center;font-size:28px;color:var(--color-text)}
+@media (max-width:760px){.keen{grid-template-columns:1fr}.keen-media{width:min(100%,280px)}}
+@media (max-width:420px){.keen-brand-text{font-size:24px}}
+
+/* ── Finale card: the end of the trail. Same card recipe as the Keen card, but in the light end of the
+      same green family (meadow vs. forest); handwritten kicker + sign-off, quote ── */
+.finale{margin-top:104px;padding:clamp(36px,8vw,96px) clamp(28px,6.5vw,76px);border-radius:calc(var(--radius-lg) * 1.4);color:var(--color-accent-2-900);box-shadow:var(--shadow-md);background:var(--color-accent-2-200);background:linear-gradient(135deg, var(--color-accent-2-200) 0%, var(--color-accent-2-300) 100%)}
+.finale-kicker{font-size:32px;color:var(--color-accent-2-700);transform:rotate(-3deg);transform-origin:left center;margin:0 0 36px}
+.finale-quote{max-width:880px;font-family:var(--font-heading);font-size:clamp(22px,2.6vw,30px);line-height:1.5;letter-spacing:-0.005em;text-wrap:pretty}
+.finale-quote p{margin:0}
+.finale-sign-off{margin-top:40px;font-size:30px;text-transform:none;color:var(--color-accent-2-700);transform:rotate(-2deg);transform-origin:left center}
+@media (max-width:420px){.finale-kicker{font-size:26px;margin-bottom:28px}.finale-sign-off{font-size:26px;margin-top:32px}}
+
+/* ── Gallery: taped polaroids in columns ───────────────────────────────── */
+.gallery{padding-top:104px;padding-bottom:24px;scroll-margin-top:72px}
+.gallery-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;margin-bottom:56px}
+.gallery-head p{margin:0}
+.gallery-cols{columns:3 250px;column-gap:28px}
+.gallery-item{break-inside:avoid;margin:0 0 36px;padding-top:12px}
+.gallery-card{position:relative;margin:0;transform:rotate(var(--r));background:var(--color-neutral-100);padding:10px 10px 16px;border-radius:20px;box-shadow:var(--shadow-sm);transition:transform .5s var(--ease-bounce), box-shadow .3s}
+@media (hover:hover){.gallery-card:hover{transform:rotate(0deg) scale(1.04) translateY(-4px);box-shadow:var(--shadow-lg)}}
+.tape{position:absolute;top:-11px;left:calc(50% - 38px);width:76px;height:22px;border-radius:4px;opacity:.85;transform:rotate(var(--tr));background:var(--tc)}
+.gallery-card .zoom{border-radius:12px}
+.gallery-card img{display:block;width:100%;height:auto;border-radius:12px;background:var(--color-surface)}
+.gallery-card figcaption{padding:12px 6px 0;font-size:24px;line-height:1.1;color:var(--color-text);text-align:center}
+
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.site-footer{max-width:1120px;margin:0 auto;padding:56px 24px 40px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--color-neutral-700)}
+.footer-brand{display:flex;flex-direction:column;gap:14px}
+.footer-logo{height:48px;width:auto;display:block;align-self:flex-start}
+.footer-meta{display:flex;flex-direction:column;gap:4px}
+.footer-meta .dofe-link{align-self:flex-start}
+/* Contact on the site's author: deliberately quiet */
+.footer-contact{flex-basis:100%;margin-top:16px;padding-top:20px;border-top:1px solid var(--color-divider);font-size:13px;color:var(--color-neutral-600)}
+.footer-contact a{color:var(--color-neutral-700);text-decoration-color:var(--color-neutral-400);text-underline-offset:3px}
+.footer-contact a:hover{color:var(--color-accent-700);text-decoration-color:currentColor}
+.footer-contact .sep{margin:0 .2em;color:var(--color-neutral-400)}
+
+/* Back-to-top button */
+.top-btn{display:inline-flex;align-items:center;gap:12px;padding:8px 8px 8px 22px;border-radius:999px;background:var(--color-accent);color:var(--color-bg);text-decoration:none;font-family:var(--font-heading);font-size:16px;box-shadow:var(--shadow-md);transform:rotate(-3deg);transition:transform .45s var(--ease-bounce), background .25s, box-shadow .25s}
+.top-btn:hover{color:var(--color-bg)}
+@media (hover:hover){.top-btn:hover{background:var(--color-accent-600);transform:translateY(-6px) rotate(2deg) scale(1.04);box-shadow:var(--shadow-lg)}}
+.top-btn:active{transform:translateY(-2px) scale(.98)}
+.top-btn-icon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--color-bg);color:var(--color-accent-700);overflow:hidden}
+.top-btn-icon svg{transition:transform .45s var(--ease-bounce)}
+@media (hover:hover){.top-btn:hover .top-btn-icon svg{animation:topArrow .7s cubic-bezier(.5,0,.3,1)}}
+@keyframes topArrow{0%{transform:none}45%{transform:translateY(-28px)}46%{transform:translateY(28px)}100%{transform:none}}
+
+/* ── Lightbox (a modal dialog; the page behind is made inert while it's open) ── */
+.lightbox{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgb(32 30 29 / .78);background:color-mix(in srgb, var(--color-text) 78%, transparent);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);cursor:zoom-out;overscroll-behavior:contain;touch-action:pan-y pinch-zoom}
+.lb-img{display:block;max-width:calc(100vw - clamp(32px, 14vw, 200px));max-height:calc(100vh - 150px);width:auto;height:auto;object-fit:contain;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);cursor:default}
+@supports (height:100dvh){.lb-img{max-height:calc(100dvh - 150px)}}
+.lb-btn{position:absolute;width:52px;height:52px;box-shadow:var(--shadow-md)}
+.lb-btn:focus-visible{outline:3px solid var(--color-accent-300);outline-offset:3px}
+.lb-close{top:20px;right:20px}
+.lb-prev{left:clamp(8px,2vw,28px);top:calc(50% - 26px)}
+.lb-next{right:clamp(8px,2vw,28px);top:calc(50% - 26px)}
+.lb-count{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);padding:8px 16px;border-radius:999px;background:var(--color-bg);color:var(--color-text);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ── Trail tracker pill: day + km walked while reading the days ── */
+.trail-pill{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom, 0px));z-index:40;display:flex;align-items:center;gap:12px;padding:8px 16px 8px 14px;border-radius:999px;background:rgb(245 234 216 / .9);background:color-mix(in srgb, var(--color-bg) 90%, transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:var(--shadow-md);font-size:13px;color:var(--color-neutral-800);font-variant-numeric:tabular-nums;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .35s ease, transform .5s var(--ease-bounce)}
+.trail-pill.on{opacity:1;transform:none}
+.trail-pill b{font-weight:700;color:var(--color-text)}
+.tp-track{position:relative;width:120px;height:4px;border-radius:999px;background:var(--color-neutral-300)}
+.tp-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:999px;background:var(--color-accent)}
+.tp-track i{position:absolute;top:-3px;width:2px;height:10px;border-radius:2px;background:var(--color-neutral-500)}
+.tp-dot{position:absolute;top:50%;left:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--color-accent);box-shadow:0 0 0 3px var(--color-bg)}
+.tp-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--color-accent);animation:tpPulse 1.8s ease-out infinite}
+@keyframes tpPulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.6);opacity:0}}
+@media (max-width:480px){.trail-pill{left:12px;gap:9px;padding:7px 12px}.tp-track{width:70px}}
+
+/* ── Phones ────────────────────────────────────────────────────────────── */
+@media (max-width:560px){
+  /* hero carousel + badge: taller frame, controls that fit */
+  .carousel{aspect-ratio:4/3}
+  .carousel-bar{padding:12px}
+  .slide-dot{width:22px}
+  .carousel-arrows .round-btn{width:40px;height:40px}
+  .badge,.badge-coin{width:70px;height:70px}
+  .badge{left:-4px;top:-26px}
+  .badge-top{font-size:13px}
+  .badge-bottom{font-size:8px;margin-top:2px}
+  /* handwritten photo notes: scale text + arrow together so long captions stay on screen */
+  .photo-note{transform:scale(.72)}
+  /* bigger touch areas without changing the look */
+  .slide-dot::after{content:"";position:absolute;inset:-14px -3px}
+  .dofe-link{display:inline-block;padding-block:10px;margin-block:-10px}
+  /* trail tracker: only while scrolling (see script.js), so it never covers the text you read */
+  .trail-pill{bottom:calc(12px + env(safe-area-inset-bottom, 0px))}
+  /* glossary tooltips: a bar at the bottom of the screen, so they never run off the edge */
+  .term::after{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom, 0px));width:auto;max-width:none;padding:12px 16px;font-size:15px;transform:translateY(8px);z-index:45}
+  .term:hover::after,.term:focus-visible::after,.term:focus::after{transform:none}
+  /* lightbox: full-width photo, arrows at the bottom next to the counter */
+  .lb-img{max-width:calc(100vw - 24px);max-height:calc(100vh - 180px)}
+  @supports (height:100dvh){.lb-img{max-height:calc(100dvh - 180px)}}
+  .lb-close{top:calc(14px + env(safe-area-inset-top, 0px));right:14px}
+  .lb-prev,.lb-next{top:auto;bottom:calc(16px + env(safe-area-inset-bottom, 0px))}
+  .lb-prev{left:16px}
+  .lb-next{right:16px}
+  .lb-count{bottom:calc(23px + env(safe-area-inset-bottom, 0px))}
+}
+@media (max-width:360px){.slide-dot{width:16px}}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  .top-btn,.top-btn:hover{transform:none}
+  .top-btn:hover .top-btn-icon svg{animation:none}
+  .tp-dot::after{animation:none}
+  .glance,.glance:hover{transform:none}
+  .keen-photo,.keen-photo:hover{transform:none}
+  .sp-tilt{transition:none}
+  .badge-coin{animation:none}
+}
+
+/* ── 404 page ── */
+.lost{min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:48px 24px;text-align:center}
+.lost h1{font-size:clamp(40px,7vw,72px);margin:0 0 12px}
+.lost p{font-size:18px;color:var(--color-neutral-700);margin:0 0 6px}
+.lost .note{font-size:30px;color:var(--color-accent-700);transform:rotate(-3deg);margin:18px 0 28px}

@@ -10,3 +10,9 @@ Thumbs.db
 
 # Local tooling
 node_modules/
+
+# Build output and caches
+_site/
+.cache/
+test-results/
+playwright-report/

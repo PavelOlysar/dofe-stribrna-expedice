@@ -1,0 +1,16 @@
+---
+permalink: /404.html
+layout: base.njk
+lang: cs
+noindex: true
+eleventyComputed:
+  pageTitle: "{{ i18n.notFound.title.cs }} · {{ i18n.brand.cs }} DOFE"
+---
+<main class="lost">
+  <div>
+    <h1>{{ i18n.notFound.heading }}</h1>
+    <p>{{ i18n.notFound.text }}</p>
+    <div class="note hand">{{ i18n.notFound.note }}</div>
+    <a class="top-btn" href="/" style="padding:14px 24px"><span class="top-btn-label">{{ i18n.notFound.back }}</span></a>
+  </div>
+</main>

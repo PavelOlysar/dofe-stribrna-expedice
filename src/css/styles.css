@@ -1,13 +1,14 @@
 /* Organic — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
-/* Fonts are loaded from index.html (Figtree body; headings are overridden to Young Serif in page.css). */
+/* Fonts are self-hosted (assets/fonts/fonts.css): Figtree body; headings are overridden to Young Serif in page.css. */
 
 :root {
+  color-scheme: only light; /* light-only design: opt out of browsers' forced dark modes */
   --color-bg: #f5ead8;
   --color-surface: #ebddc5;
   --color-text: #201e1d;
   --color-accent: #c67139;
   --color-accent-2: #7a8a5e;
-  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
+  --color-divider: rgb(32 30 29 / .16);
 
   /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
      same step of any role matches the others in visual value. */
@@ -58,9 +59,9 @@
 
   /* Elevation — derived from the ground: soft ink-tinted shadows on a
      light theme, a hairline edge + ambient darkness on a dark one. */
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
-  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
+  --shadow-sm: 0 1px 2px rgb(46 43 37 / .14);
+  --shadow-md: 0 3px 10px rgb(46 43 37 / .16);
+  --shadow-lg: 0 12px 32px rgb(46 43 37 / .22);
 }
 
 body {
