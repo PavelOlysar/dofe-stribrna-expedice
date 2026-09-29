@@ -92,7 +92,8 @@ The tests (`tests/site.spec.js`) open the built site in Chromium and check:
 - no sideways scrolling and no errors at widths from 320 to 1440 px, in both languages;
 - forced dark mode on phones keeps the page light;
 - the photo viewer works with the keyboard and moves focus correctly;
-- the slideshow pause button works, and the slideshow doesn't autoplay with reduced motion;
+- the slideshow pause button works, and the animations, slideshow and video stay on even with the system's Reduce Motion;
+- the preloader shows while the page loads and then goes away;
 - swiping works;
 - all internal links resolve;
 - the 404 page is styled.
@@ -118,7 +119,7 @@ so link previews, canonical links and the sitemap use the new address.
 | `src/_includes/` | Layout and page sections (`partials/`: nav, hero, route, day, finale, gallery, footer…) |
 | `src/css/styles.css` | Design-system tokens and base components (colours, type, buttons, tags) |
 | `src/css/page.css` | Page styles, in page order |
-| `src/js/script.js` | Menu, slideshow, photo viewer, scroll progress, trail tracker, reveal animations |
+| `src/js/script.js` | Preloader, menu, slideshow, photo viewer, scroll progress, trail tracker, reveal animations |
 | `src/assets/` | Logos, icons, link-preview image, the paper grain tile, self-hosted fonts (`fonts/`) and `photos/` |
 | `eleventy.config.js` | Build setup: photo sizes, language helpers |
 | `tools/` | `prepare-media.mjs` (`npm run media`) and the video encoder it uses |

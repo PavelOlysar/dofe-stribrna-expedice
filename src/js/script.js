@@ -1,4 +1,4 @@
-// Expedition story page: mobile menu, hero carousel, lightbox, scroll progress, active nav,
+// Expedition story page: preloader, mobile menu, hero carousel, lightbox, scroll progress, active nav,
 // trail tracker, the day-3 drone video and reveal-on-scroll animations. Each language has its own page,
 // so this script never swaps texts, it only reads <html lang> for number formatting.
 (() => {
@@ -8,9 +8,9 @@
   const $$ = (sel, el = root) => [...el.querySelectorAll(sel)];
   const lang = document.documentElement.lang;
   const dec = s => (lang === 'cs' ? String(s).replace('.', ',') : String(s));
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // no Web Animations API (very old browsers) → behave as with reduced motion instead of crashing
-  const motionOn = !reduceMotion && typeof Element.prototype.animate === 'function';
+  // the animations are part of the story, so they always play (the slideshow and the video have pause
+  // buttons); only a browser without the Web Animations API (very old ones) shows everything still
+  const motionOn = typeof Element.prototype.animate === 'function';
   // Safari < 14 only has the old addListener() on media queries
   const onMedia = (mq, fn) => mq.addEventListener ? mq.addEventListener('change', fn) : mq.addListener(fn);
   // :focus-visible inside matches() throws on iOS 15.0–15.3
@@ -46,14 +46,13 @@
   onMedia(matchMedia('(min-width: 961px)'), e => { if (e.matches) setMenu(false); });
 
   /* ── Hero carousel ────────────────────────────────────────── */
-  // Auto-advances every 5 s unless: reduced motion is on (then it starts paused), the pause button
-  // is pressed, the mouse is over it, keyboard focus is inside it, it's scrolled off screen,
+  // Auto-advances every 5 s unless: the pause button is pressed, the mouse is over it, keyboard focus is inside it, it's scrolled off screen,
   // the tab is hidden or the lightbox is open.
   const carousel = $('[data-carousel]');
   const slides = $$('[data-slide]', carousel);
   const pauseBtn = $('[data-pause]', carousel);
   let slide = 0, anim = null, lb = null;
-  const hold = { user: reduceMotion, hover: false, focus: false, hidden: false, offscreen: false };
+  const hold = { user: false, hover: false, focus: false, hidden: false, offscreen: false };
   const isHeld = () => hold.user || hold.hover || hold.focus || hold.hidden || hold.offscreen || lb != null;
   const applyHold = () => { if (anim) isHeld() ? anim.pause() : anim.play(); };
   const render = () => {
@@ -99,7 +98,6 @@
   document.addEventListener('visibilitychange', () => { hold.hidden = document.hidden; applyHold(); });
   if ('IntersectionObserver' in window) new IntersectionObserver(([en]) => { hold.offscreen = !en.isIntersecting; applyHold(); }).observe(carousel);
   const carouselSwiped = onSwipe(carousel, d => goTo(slide + d));
-  if (reduceMotion) setUserPause(true);
 
   /* ── Hero signpost: leans slightly toward the mouse, only when it's close ── */
   const spTilt = $('[data-sp-tilt]');
@@ -215,11 +213,11 @@
   });
 
   /* ── Drone video (day 3): plays silently while on screen ────── */
-  // Not by itself with reduced motion or data-saver on; the button (or a tap on the video) plays/pauses.
+  // Not by itself with data-saver on; the button (or a tap on the video) plays/pauses.
   const vid = $('[data-video]');
   if (vid) {
     const btn = $('[data-video-toggle]');
-    let held = reduceMotion || !!(navigator.connection && navigator.connection.saveData), inView = false;
+    let held = !!(navigator.connection && navigator.connection.saveData), inView = false;
     const sync = () => {
       btn.setAttribute('aria-pressed', String(vid.paused));
       btn.setAttribute('aria-label', vid.paused ? btn.dataset.labelPlay : btn.dataset.labelPause);
@@ -232,24 +230,10 @@
     btn.addEventListener('click', toggle);
     vid.addEventListener('click', toggle);
     document.addEventListener('visibilitychange', update);
-    // the poster photo loads only when the video is getting close, not with the page
-    const setPoster = () => { vid.poster = vid.dataset.poster; };
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([en]) => { inView = en.isIntersecting; update(); }, { threshold: 0.35 }).observe(vid);
-      const near = new IntersectionObserver(([en]) => { if (en.isIntersecting) { near.disconnect(); setPoster(); } }, { rootMargin: '600px 0px' });
-      near.observe(vid);
-    } else setPoster();
+    }
     sync();
-  }
-
-  /* ── Route map: Google Maps (~0.5 MB) loads only when it's about to scroll into view ── */
-  const map = $('[data-map-src]');
-  if (map) {
-    const loadMap = () => { map.src = map.dataset.mapSrc; };
-    if ('IntersectionObserver' in window) {
-      const near = new IntersectionObserver(([en]) => { if (en.isIntersecting) { near.disconnect(); loadMap(); } }, { rootMargin: '300px 0px' });
-      near.observe(map);
-    } else loadMap();
   }
 
   /* ── Scroll: progress bar, active nav, language links ─────── */
@@ -314,6 +298,8 @@
   addEventListener('resize', onScroll);
 
   /* ── Reveal-on-scroll ─────────────────────────────────────── */
+  // Hides everything that animates in right away (while the preloader still covers the page) and
+  // returns the function that starts showing it.
   const setupReveal = () => {
     // story paragraphs come from Markdown, so they get their reveal here
     $$('.story-text > p, .day-row .prose > p').forEach(p => { p.dataset.reveal = 'up'; });
@@ -361,15 +347,17 @@
       $$('[data-stop]', el).forEach((s, i) => play(s, d + 250 + i * 130, 700));
       $$('[data-count]', el).forEach(c => count(c, d + 100));
     };
-    const io = new IntersectionObserver(entries => entries.forEach(en => {
-      if (en.isIntersecting) { io.unobserve(en.target); show(en.target); }
-    }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-    const heroVisible = header && header.getBoundingClientRect().top < innerHeight;
-    requestAnimationFrame(() => els.forEach(el => {
-      if (heroVisible && el.hasAttribute('data-hero') && header.contains(el)) show(el);
-      else io.observe(el);
-    }));
-    onScroll();
+    return () => {
+      const io = new IntersectionObserver(entries => entries.forEach(en => {
+        if (en.isIntersecting) { io.unobserve(en.target); show(en.target); }
+      }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      const heroVisible = header && header.getBoundingClientRect().top < innerHeight;
+      requestAnimationFrame(() => els.forEach(el => {
+        if (heroVisible && el.hasAttribute('data-hero') && header.contains(el)) show(el);
+        else io.observe(el);
+      }));
+      onScroll();
+    };
   };
 
   const playIntroExtras = () => {
@@ -379,17 +367,43 @@
       { opacity: 1, transform: 'scale(1.1) rotate(8deg)', offset: .65 },
       { opacity: 1, transform: 'scale(.97) rotate(-2deg)', offset: .85 },
       { opacity: 1, transform: 'scale(1) rotate(0deg)' }
-    ], { duration: 820, delay: 1300, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'both' });
+    ], { duration: 820, delay: 900, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'both' });
     a.onfinish = () => { el.style.opacity = ''; a.cancel(); };
+  };
+
+  /* ── Preloader ────────────────────────────────────────────── */
+  // Stays up until the fonts and the first hero photo are ready: at least 1.5 s so it reads as part of the
+  // page, at most 6 s so a slow photo never keeps the story hidden.
+  const preloader = document.querySelector('[data-preloader]');
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const firstPhoto = () => new Promise(done => {
+    const img = slides[0] && $('img', slides[0]);
+    if (!img) return done();
+    const decoded = () => (img.decode ? img.decode() : Promise.resolve()).then(done, done);
+    if (img.complete) decoded();
+    else { img.addEventListener('load', decoded, { once: true }); img.addEventListener('error', done, { once: true }); }
+  });
+  const pageReady = () => preloader
+    ? Promise.race([Promise.all([document.fonts ? document.fonts.ready.catch(() => {}) : null, firstPhoto(), wait(1500)]), wait(6000)])
+    : Promise.resolve();
+  const hidePreloader = () => {
+    document.documentElement.classList.remove('is-loading');
+    if (!preloader) return;
+    preloader.classList.add('done');
+    setTimeout(() => preloader.remove(), 600);
   };
 
   /* ── Boot ─────────────────────────────────────────────────── */
   render();
   tick();
-  if (motionOn) { setupReveal(); playIntroExtras(); }
-  else $$('[data-hero]').forEach(el => { el.style.opacity = ''; });
+  const startReveal = motionOn ? setupReveal() : null;
   // on a slow connection the first photo may still be loading: the slideshow doesn't move on before it's shown
   const afterLoad = fn => { if (document.readyState === 'complete') fn(); else addEventListener('load', fn, { once: true }); };
-  afterLoad(() => { wakeSlides(); setTimeout(startAuto, motionOn ? 1500 : 0); });
-  window.expediceReady = true; // tells the failsafe in <head> that the hero is handled
+  pageReady().then(() => {
+    hidePreloader();
+    if (startReveal) { startReveal(); playIntroExtras(); }
+    else $$('[data-hero]').forEach(el => { el.style.opacity = ''; });
+    afterLoad(() => { wakeSlides(); setTimeout(startAuto, motionOn ? 1500 : 0); });
+  });
+  window.expediceReady = true; // tells the failsafe at the top of <body> that the script is running
 })();

@@ -8,7 +8,9 @@ layout: base.njk
 heroPreload: true
 ---
 {%- set stories = collections.stories[lang] -%}
-<script>setTimeout(function(){if(!window.expediceReady){var h=document.querySelectorAll('[data-hero]');for(var i=0;i<h.length;i++)h[i].style.opacity=''}},2500)</script>
+{#- failsafe: if script.js never runs, show the hero and take the preloader away after 6 s -#}
+<script>setTimeout(function(){if(!window.expediceReady){var h=document.querySelectorAll('[data-hero]');for(var i=0;i<h.length;i++)h[i].style.opacity='';var p=document.querySelector('[data-preloader]');if(p)p.parentNode.removeChild(p);document.documentElement.className=document.documentElement.className.replace('is-loading','')}},6000)</script>
+{% include "partials/preloader.njk" %}
 <a class="skip-link" href="#obsah">{{ i18n.skip | t(lang) }}</a>
 <div id="app">
 {% include "partials/nav.njk" %}

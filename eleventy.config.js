@@ -76,12 +76,10 @@ export default function (config) {
       fetchpriority: opts.fetchpriority || undefined
     });
   });
-  // URL of a photo at ~1200 px, for places that take a single URL (the <video> poster, set by script.js).
-  // It lands in a data- attribute, which HtmlBasePlugin doesn't rewrite, so add the prefix here
+  // URL of a photo at ~1200 px, for places that take a single URL (the <video> poster)
   config.addShortcode('photoUrl', async file => {
     const meta = await photoMeta(file);
-    const prefix = (process.env.PATH_PREFIX || '/').replace(/\/$/, '');
-    return prefix + (meta.jpeg.find(m => m.width >= 1200) || meta.jpeg.at(-1)).url;
+    return (meta.jpeg.find(m => m.width >= 1200) || meta.jpeg.at(-1)).url;
   });
   // Preload hint for the first hero photo
   config.addShortcode('photoPreload', async (file, sizes) => {

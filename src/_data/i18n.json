@@ -283,5 +283,13 @@
   "videoPause": {
     "cs": "Pozastavit video",
     "en": "Pause video"
+  },
+  "preloader": {
+    "cs": "Vyrážíme na stezku…",
+    "en": "Hitting the trail…"
+  },
+  "loading": {
+    "cs": "Načítání stránky",
+    "en": "Loading the page"
   }
 }

@@ -1,4 +1,4 @@
-/* Page styles for the expedition story. Components are in page order: base, nav, hero, stats, route,
+/* Page styles for the expedition story. Components are in page order: base, preloader, nav, hero, stats, route,
    story days, Keen card, finale, gallery, footer, lightbox, trail pill, then phone tweaks.
    Hover-only effects sit inside @media (hover:hover) so they never get stuck after a tap. */
 
@@ -20,6 +20,26 @@ a:hover{color:var(--color-accent-800)}
 .muted{font-size:15px;color:var(--color-neutral-700)}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .hand{font-family:'Delicious Handrawn', cursive;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+
+/* ── Preloader: a trail drawing itself while the fonts and the first photo load (script.js hides it) ── */
+html.is-loading{overflow:hidden}
+.preloader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:24px;background:var(--color-bg) url(../assets/grain.webp) 0 0 / 530px 530px;transition:opacity .6s ease, visibility 0s linear .6s}
+.preloader.done{opacity:0;visibility:hidden;pointer-events:none}
+.pl-inner{display:grid;justify-items:center;gap:14px;transition:transform .6s var(--ease-bounce)}
+.preloader.done .pl-inner{transform:translateY(-12px) scale(.94)}
+.pl-stage{position:relative;width:260px;height:96px}
+.pl-trail{display:block;overflow:visible}
+.pl-base{fill:none;stroke:var(--color-neutral-300);stroke-width:4;stroke-linecap:round;stroke-dasharray:.012 .028}
+.pl-draw{fill:none;stroke:var(--color-accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:1 1;animation:plDraw 2.6s linear infinite}
+@keyframes plDraw{0%{stroke-dashoffset:1;opacity:1}72%{stroke-dashoffset:0;opacity:1}86%{opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+.pl-start{fill:var(--color-accent-2)}
+.pl-flag{fill:var(--color-accent);stroke:var(--color-accent-700);stroke-width:2.5;stroke-linejoin:round}
+/* the walker follows the same path in CSS, so it keeps time with the line from the very first frame */
+.pl-walker{position:absolute;left:0;top:0;width:17px;height:17px;border-radius:50%;background:var(--color-accent);border:3px solid var(--color-bg);offset-path:path('M14 76C54 76 58 30 98 34S140 78 176 60 214 18 246 22');offset-rotate:0deg;animation:plWalk 2.6s linear infinite}
+@keyframes plWalk{0%{offset-distance:0%;opacity:1}72%{offset-distance:100%;opacity:1}86%{opacity:1}100%{offset-distance:100%;opacity:0}}
+@supports not (offset-path:path('M0 0')){.pl-walker{display:none}}
+.pl-text{margin:0;font-family:'Delicious Handrawn', cursive;font-size:30px;line-height:1.1;color:var(--color-accent-700);transform:rotate(-2deg);animation:plBob 1.3s ease-in-out infinite alternate}
+@keyframes plBob{to{transform:rotate(-2deg) translateY(-4px)}}
 @keyframes silverSheen{0%{background-position:0% 0%}100%{background-position:100% 100%}}
 
 /* Paper grain over everything: one pre-rendered tile (was six live SVG noise filters) plus the
@@ -374,17 +394,6 @@ a:hover{color:var(--color-accent-800)}
   .lb-count{bottom:calc(23px + env(safe-area-inset-bottom, 0px))}
 }
 @media (max-width:360px){.slide-dot{width:16px}}
-
-/* ── Reduced motion ────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion:reduce){
-  .top-btn,.top-btn:hover{transform:none}
-  .top-btn:hover .top-btn-icon svg{animation:none}
-  .tp-dot::after{animation:none}
-  .glance,.glance:hover{transform:none}
-  .keen-photo,.keen-photo:hover{transform:none}
-  .sp-tilt{transition:none}
-  .badge-coin{animation:none}
-}
 
 /* ── 404 page ── */
 .lost{min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:48px 24px;text-align:center}

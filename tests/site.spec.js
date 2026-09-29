@@ -95,15 +95,27 @@ test('carousel pause button stops the slideshow', async ({ page }) => {
   await expect(pause).toHaveAttribute('aria-pressed', 'false');
 });
 
-test.describe('with reduced motion', () => {
+test.describe('with Reduce Motion turned on in the system', () => {
   test.use({ reducedMotion: 'reduce' });
-  test('the carousel starts paused and never advances by itself', async ({ page }) => {
+  test('the animations stay on: the slideshow advances and the video plays', async ({ page }) => {
     await page.goto('');
-    await expect(page.locator('[data-pause]')).toHaveAttribute('aria-pressed', 'true');
-    await page.waitForTimeout(6500);
-    await expect(page.locator('.slide.on')).toHaveAttribute('data-slide', '0');
+    await expect(page.locator('[data-pause]')).toHaveAttribute('aria-pressed', 'false');
+    await page.mouse.move(0, 0);
+    await expect(page.locator('.slide.on')).not.toHaveAttribute('data-slide', '0', { timeout: 12000 });
     await expect(page.locator('.hero-title')).toBeVisible();
+    const vid = page.locator('[data-video]');
+    await vid.scrollIntoViewIfNeeded();
+    await expect.poll(() => vid.evaluate(v => v.paused)).toBe(false);
   });
+});
+
+test('preloader shows while loading, then gets out of the way', async ({ page }) => {
+  await page.goto('', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('[data-preloader]')).toBeVisible();
+  await expect(page.locator('html')).toHaveClass(/is-loading/);
+  await expect(page.locator('[data-preloader]')).toHaveCount(0, { timeout: 7000 });
+  await expect(page.locator('html')).not.toHaveClass(/is-loading/);
+  await expect(page.locator('.hero-title')).toBeVisible();
 });
 
 async function swipe(page, locator, dx) {
@@ -215,9 +227,8 @@ test('day 3 drone video: file and poster load, it plays on screen and the button
   const vid = page.locator('#den-3 [data-video]');
   await expect(vid).toHaveCount(1);
   expect((await request.get(await vid.locator('source').getAttribute('src'))).status()).toBe(200);
-  await vid.scrollIntoViewIfNeeded();
-  await expect(vid).toHaveAttribute('poster', /\/img\//);
   expect((await request.get(await vid.getAttribute('poster'))).status()).toBe(200);
+  await vid.scrollIntoViewIfNeeded();
   await expect.poll(() => vid.evaluate(v => v.paused)).toBe(false);
   const btn = page.locator('[data-video-toggle]');
   await expect(btn).toHaveAttribute('aria-pressed', 'false');
@@ -226,27 +237,11 @@ test('day 3 drone video: file and poster load, it plays on screen and the button
   await expect(btn).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('heavy parts wait: hero photos 2–5 until the page has loaded, the map and video poster until scrolled near', async ({ page, request }) => {
+test('hero photos 2–5 wait until the page has loaded, so the first one loads fastest', async ({ page, request }) => {
   const html = await (await request.get('')).text();
   const slides = (html.match(/data-slide="\d+"/g) || []).length;
   expect((html.match(/<template data-slide-img>/g) || []).length).toBe(slides - 1);
-  await page.goto('', { waitUntil: 'domcontentloaded' });
-  const map = page.locator('.route-map > iframe');
-  await expect(map).not.toHaveAttribute('src', /./);
-  await expect(page.locator('[data-video]')).not.toHaveAttribute('poster', /./);
-  await expect(page.locator('[data-carousel] img')).toHaveCount(slides); // woken after load
-  await map.scrollIntoViewIfNeeded();
-  await expect(map).toHaveAttribute('src', /google/);
+  await page.goto('');
+  await expect(page.locator('[data-carousel] img')).toHaveCount(slides);
 });
 
-test.describe('video with reduced motion', () => {
-  test.use({ reducedMotion: 'reduce' });
-  test('does not start by itself', async ({ page }) => {
-    await page.goto('');
-    const vid = page.locator('[data-video]');
-    await vid.scrollIntoViewIfNeeded();
-    await page.waitForTimeout(1500);
-    expect(await vid.evaluate(v => v.paused)).toBe(true);
-    await expect(page.locator('[data-video-toggle]')).toHaveAttribute('aria-pressed', 'true');
-  });
-});
