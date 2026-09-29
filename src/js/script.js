@@ -1,5 +1,5 @@
 // Expedition story page: mobile menu, hero carousel, lightbox, scroll progress, active nav,
-// trail tracker and reveal-on-scroll animations. Each language has its own page,
+// trail tracker, the day-3 drone video and reveal-on-scroll animations. Each language has its own page,
 // so this script never swaps texts, it only reads <html lang> for number formatting.
 (() => {
   'use strict';
@@ -204,6 +204,30 @@
     if (carousel.contains(zoom) && carouselSwiped()) return; // that was a swipe, not a tap
     openLb(zoom);
   });
+
+  /* ── Drone video (day 3): plays silently while on screen ────── */
+  // Not by itself with reduced motion or data-saver on; the button (or a tap on the video) plays/pauses.
+  const vid = $('[data-video]');
+  if (vid) {
+    const btn = $('[data-video-toggle]');
+    let held = reduceMotion || !!(navigator.connection && navigator.connection.saveData), inView = false;
+    const sync = () => {
+      btn.setAttribute('aria-pressed', String(vid.paused));
+      btn.setAttribute('aria-label', vid.paused ? btn.dataset.labelPlay : btn.dataset.labelPause);
+    };
+    const play = () => { const p = vid.play(); if (p && p.catch) p.catch(sync); };
+    const update = () => { if (inView && !held && !document.hidden) play(); else if (!vid.paused) vid.pause(); };
+    const toggle = () => { held = !vid.paused; if (held) vid.pause(); else play(); };
+    vid.addEventListener('play', sync);
+    vid.addEventListener('pause', sync);
+    btn.addEventListener('click', toggle);
+    vid.addEventListener('click', toggle);
+    document.addEventListener('visibilitychange', update);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([en]) => { inView = en.isIntersecting; update(); }, { threshold: 0.35 }).observe(vid);
+    }
+    sync();
+  }
 
   /* ── Scroll: progress bar, active nav, language links ─────── */
   const bar = $('[data-progress]');

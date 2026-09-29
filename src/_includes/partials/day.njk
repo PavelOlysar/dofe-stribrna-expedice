@@ -53,4 +53,18 @@
       </aside>
 {%- endif %}
       <div class="story-text">{{ parts.after | safe }}</div>
+{%- if day.video %}
+{%- set v = day.video %}
+      <figure class="day-video" data-reveal="img">
+        <div class="photo-note photo-note--{{ v.note.side }}" data-note aria-hidden="true" style="--x:{{ v.note.offset }};--r:{{ v.note.rotate }}deg;--ax:{{ v.note.arrowX }}px">
+          <span class="photo-note-text hand" data-note-text>{{ v.note.text | t(lang) }}</span>
+          <svg class="photo-note-arrow" viewBox="0 0 90 76" width="90" height="76" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">{% for d in v.note.paths %}<path data-draw d="{{ d }}"/>{% endfor %}</svg>
+        </div>
+        <div class="day-video-frame">
+          <video data-video muted loop playsinline preload="none" poster="{% photoUrl v.poster %}"><source src="/assets/video/{{ v.src }}" type="video/mp4"></video>
+          <button type="button" class="carousel-pause video-toggle" data-video-toggle aria-pressed="true" aria-label="{{ i18n.videoPlay | t(lang) }}" data-label-play="{{ i18n.videoPlay | t(lang) }}" data-label-pause="{{ i18n.videoPause | t(lang) }}"><svg class="i-pause" width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx="1" fill="currentColor"/><rect x="7.4" y="1.5" width="2.6" height="9" rx="1" fill="currentColor"/></svg><svg class="i-play" width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.8v8.4a.6.6 0 0 0 .9.5l6.6-4.2a.6.6 0 0 0 0-1L3.9 1.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg></button>
+        </div>
+        <figcaption class="sr-only">{{ v.alt | t(lang) }}</figcaption>
+      </figure>
+{%- endif %}
     </section>

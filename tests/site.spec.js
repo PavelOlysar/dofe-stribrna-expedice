@@ -64,7 +64,8 @@ test('gallery photos open with the keyboard; focus moves into the viewer and bac
   await page.keyboard.press('Enter');
   const box = page.locator('#lightbox');
   await expect(box).toBeVisible();
-  await expect(page.locator('#lb-count')).toHaveText('1 / 12');
+  const n = await page.locator('.gallery .zoom').count();
+  await expect(page.locator('#lb-count')).toHaveText(`1 / ${n}`);
   await expect(page.locator('[data-lb-close]')).toBeFocused();
   // Tab stays inside the dialog
   for (let i = 0; i < 5; i++) {
@@ -72,7 +73,7 @@ test('gallery photos open with the keyboard; focus moves into the viewer and bac
     expect(await page.evaluate(() => !!document.activeElement.closest('#lightbox'))).toBe(true);
   }
   await page.keyboard.press('ArrowRight');
-  await expect(page.locator('#lb-count')).toHaveText('2 / 12');
+  await expect(page.locator('#lb-count')).toHaveText(`2 / ${n}`);
   await page.keyboard.press('Escape');
   await expect(box).toBeHidden();
   // focus returns to the photo that is now shown (the second one)
@@ -129,9 +130,9 @@ test('swipe changes photos in the carousel and in the viewer', async ({ page }) 
   await expect(page.locator('.slide.on')).toHaveAttribute('data-slide', '0');
 
   await page.locator('.gallery .zoom').first().click();
-  await expect(page.locator('#lb-count')).toHaveText('1 / 12');
+  await expect(page.locator('#lb-count')).toHaveText(/^1 \//);
   await swipe(page, page.locator('#lb-img'), -160);
-  await expect(page.locator('#lb-count')).toHaveText('2 / 12');
+  await expect(page.locator('#lb-count')).toHaveText(/^2 \//);
   await expect(page.locator('#lightbox')).toBeVisible();
 });
 
@@ -187,7 +188,7 @@ test('sitemap and robots.txt list both languages', async ({ request }) => {
 test('photo files are named by content hash (so a replaced photo is never served stale)', async ({ page }) => {
   await page.goto('');
   const src = await page.locator('.gallery img').first().getAttribute('src');
-  expect(src).toMatch(/\/img\/hero-[\w-]{6,}-\d+\.jpeg$/);
+  expect(src).toMatch(/\/img\/[\w-]+-[\w-]{6,}-\d+\.jpeg$/);
 });
 
 test.describe('on a phone', () => {
@@ -198,5 +199,40 @@ test.describe('on a phone', () => {
     await expect(page.locator('#lightbox')).toBeVisible();
     // 390px × 2 = 780 device pixels → the 800px version
     await expect(page.locator('#lb-img')).toHaveAttribute('src', /-800\.webp$/);
+  });
+});
+
+test('gallery is grouped by day and its count matches the photos', async ({ page }) => {
+  await page.goto('');
+  await expect(page.locator('.gallery-day')).toHaveCount(4);
+  await expect(page.locator('.gallery-day-title').first()).toContainText('Den 1');
+  const n = await page.locator('.gallery .zoom').count();
+  await expect(page.locator('.gallery-head p')).toContainText(`${n} fotek`);
+});
+
+test('day 3 drone video: file and poster load, it plays on screen and the button pauses it', async ({ page, request }) => {
+  await page.goto('');
+  const vid = page.locator('#den-3 [data-video]');
+  await expect(vid).toHaveCount(1);
+  expect((await request.get(await vid.locator('source').getAttribute('src'))).status()).toBe(200);
+  expect((await request.get(await vid.getAttribute('poster'))).status()).toBe(200);
+  await vid.scrollIntoViewIfNeeded();
+  await expect.poll(() => vid.evaluate(v => v.paused)).toBe(false);
+  const btn = page.locator('[data-video-toggle]');
+  await expect(btn).toHaveAttribute('aria-pressed', 'false');
+  await btn.click();
+  await expect.poll(() => vid.evaluate(v => v.paused)).toBe(true);
+  await expect(btn).toHaveAttribute('aria-pressed', 'true');
+});
+
+test.describe('video with reduced motion', () => {
+  test.use({ reducedMotion: 'reduce' });
+  test('does not start by itself', async ({ page }) => {
+    await page.goto('');
+    const vid = page.locator('[data-video]');
+    await vid.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1500);
+    expect(await vid.evaluate(v => v.paused)).toBe(true);
+    await expect(page.locator('[data-video-toggle]')).toHaveAttribute('aria-pressed', 'true');
   });
 });

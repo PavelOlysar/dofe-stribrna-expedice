@@ -7,10 +7,6 @@ export default {
   prefix,
   url: origin + (process.env.PATH_PREFIX || '/dofe-stribrna-expedice/'), // absolute URL for link previews
   langs: ['cs', 'en'],
-  contact: {
-    name: 'Pavel Olysar',
-    web: 'https://pavelolysar.com',
-    webLabel: 'pavelolysar.com',
-    email: 'olysarp@gmail.com'
-  }
+  // the footer invites visitors to write to the expedition members
+  contact: { email: 'olysarp@gmail.com' }
 };

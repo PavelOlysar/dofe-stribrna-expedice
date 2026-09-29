@@ -234,8 +234,8 @@
     "en": "Gallery"
   },
   "galleryHint": {
-    "cs": "12 fotek z cesty · klikni pro zvětšení",
-    "en": "12 photos from the trip · click to enlarge"
+    "cs": "{n} fotek z cesty · klikni pro zvětšení",
+    "en": "{n} photos from the trip · click to enlarge"
   },
   "enlarge": {
     "cs": "Zvětšit fotku",
@@ -262,10 +262,6 @@
     "cs": "Zpět nahoru",
     "en": "Back to top"
   },
-  "madeBy": {
-    "cs": "Web vytvořil",
-    "en": "Website by"
-  },
   "notFound": {
     "title": {
       "cs": "Stránka nenalezena",
@@ -275,5 +271,17 @@
     "text": "Tahle stránka neexistuje. · This page doesn’t exist.",
     "note": "Zabloudili jsme? · Lost the trail?",
     "back": "Zpět na expedici · Back to the expedition"
+  },
+  "contact": {
+    "cs": "Chcete se na něco zeptat někoho z nás? Napište na",
+    "en": "Want to ask one of us something? Write to"
+  },
+  "videoPlay": {
+    "cs": "Přehrát video",
+    "en": "Play video"
+  },
+  "videoPause": {
+    "cs": "Pozastavit video",
+    "en": "Pause video"
   }
 }

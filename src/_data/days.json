@@ -419,7 +419,29 @@
       }
     ],
     "insert": "keen",
-    "photos": []
+    "photos": [],
+    "video": {
+      "src": "den3-dron.mp4",
+      "poster": "den3-dron-poster.jpg",
+      "alt": {
+        "cs": "Záběr z dronu: večer na louce u tábora, dron se zvedá nad skupinu a okolní lesy.",
+        "en": "Drone footage: evening on the meadow by our camp, the drone rising above the group and the forests around."
+      },
+      "note": {
+        "side": "left",
+        "offset": "5%",
+        "rotate": -3,
+        "arrowX": 150,
+        "text": {
+          "cs": "Večer z dronu",
+          "en": "Evening from the drone"
+        },
+        "paths": [
+          "M6 8 C 36 0, 64 14, 60 62",
+          "M49 52 L60 65 L70 51"
+        ]
+      }
+    }
   },
   {
     "id": "den-4",

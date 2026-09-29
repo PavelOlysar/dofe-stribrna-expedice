@@ -32,19 +32,38 @@ gallery captions, photo descriptions) are in `src/_data/`:
 | File | Contents |
 | --- | --- |
 | `i18n.json` | Navigation, buttons, labels, page title and description, stats |
-| `days.json` | Per day: km, trail colour, route-card stops, "v kostce" rows, photo pair with handwritten notes |
-| `gallery.json` | The 12 gallery photos: file, caption, description, tilt, tape colour |
+| `days.json` | Per day: km, trail colour, route-card stops, "v kostce" rows, photo pair with handwritten notes, the day 3 video |
+| `gallery.json` | The gallery photos: file, day, caption, description, tilt, tape colour |
 | `slides.json` | The hero slideshow photos and their descriptions |
 | `signpost.json` | The signpost arrows in the hero |
-| `site.js` | Site address and the author contact in the footer |
+| `site.js` | Site address and the contact email in the footer |
 
 Every text there has a `cs` and an `en` version: change both.
 
-## Photos
+## Adding photos or a video
 
-Put photos in `src/assets/photos/` and reference them by file name in the data files above.
+Put the new photos (and/or a video) in any folder, then run:
+
+```sh
+npm run media -- path/to/folder
+```
+
+This works on a Mac only, because it uses the built-in `sips` and Swift/AVFoundation. It:
+
+- resizes each photo to 1800 px, strips its metadata (location, camera), and saves it as
+  `src/assets/photos/gallery/den<N>-<HHMM>.jpg` (the day and time come from when it was taken);
+- converts a video to a web MP4 (H.264, 1080p, about 13 MB per 25 s) in `src/assets/video/`,
+  and saves a poster frame for it;
+- moves the whole folder to `_originals/` (kept on your computer, never published);
+- prints ready-made entries for `src/_data/gallery.json`. Paste them in and write each photo's
+  `caption` (the handwritten text under the polaroid) and `alt` (a one-sentence description for
+  screen readers), in `cs` and `en`.
+
+The gallery groups photos by their `day`, and the count in "28 fotek z cesty" updates by itself.
+The Day 3 drone video is set in `src/_data/days.json` (`video` on day 3).
+
 The build makes every photo in several sizes (480–1800 px) and formats (AVIF, WebP, JPEG), so phones
-download small versions. Resize huge originals to about 1800 px on the long edge first to keep the repo small.
+download small versions.
 
 ## Run locally
 
@@ -100,6 +119,7 @@ so link previews and paths use the new address.
 | `src/js/script.js` | Menu, slideshow, photo viewer, scroll progress, trail tracker, reveal animations |
 | `src/assets/` | Logos, icons, link-preview image, the paper grain tile, self-hosted fonts (`fonts/`) and `photos/` |
 | `eleventy.config.js` | Build setup: photo sizes, language helpers |
+| `tools/` | `prepare-media.mjs` (`npm run media`) and the video encoder it uses |
 | `tests/` | Browser tests and a small server that mimics GitHub Pages |
 
 ## Credits

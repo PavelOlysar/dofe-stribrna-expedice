@@ -1,17 +1,25 @@
   <section id="galerie" class="gallery wrap">
     <div class="gallery-head">
       <h2 class="section-title" data-reveal="up">{{ i18n.galleryTitle | t(lang) }}</h2>
-      <p class="muted" data-reveal="up" data-delay="100">{{ i18n.galleryHint | t(lang) }}</p>
+      <p class="muted" data-reveal="up" data-delay="100">{{ i18n.galleryHint | t(lang) | fmt({ n: gallery.length }) }}</p>
     </div>
-    <div class="gallery-cols">
-{%- asyncEach g in gallery %}
-      <div class="gallery-item" data-reveal="pop" data-delay="{{ g.delay }}">
-        <figure class="gallery-card" style="--r:{{ g.rotate }}deg">
-          <span class="tape" aria-hidden="true" style="--tr:{{ g.tape.rotate }}deg;--tc:var(--{{ g.tape.color }})"></span>
-          <button type="button" class="zoom" data-group="gallery" aria-label="{{ i18n.enlarge | t(lang) }}: {{ g.caption | t(lang) }}">{% photo g.src, g.alt | t(lang), { sizes: '(max-width: 640px) calc(100vw - 68px), 340px' } %}</button>
-          <figcaption class="hand">{{ g.caption | t(lang) }}</figcaption>
-        </figure>
-      </div>
+{%- asyncEach day in days %}
+{%- set photos = gallery | byDay(day.n) %}
+{%- if photos.length %}
+    <div class="gallery-day">
+      <h3 class="gallery-day-title hand" data-reveal="left">{{ i18n.day | t(lang) }} {{ day.n }} · {{ stories[day.id].data.title }}</h3>
+      <div class="gallery-cols">
+{%- asyncEach g in photos %}
+        <div class="gallery-item" data-reveal="pop" data-delay="{{ (loop.index0 % 3) * 110 }}">
+          <figure class="gallery-card" style="--r:{{ g.rotate }}deg">
+            <span class="tape" aria-hidden="true" style="--tr:{{ g.tape.rotate }}deg;--tc:var(--{{ g.tape.color }})"></span>
+            <button type="button" class="zoom" data-group="gallery" aria-label="{{ i18n.enlarge | t(lang) }}: {{ g.caption | t(lang) }}">{% photo g.src, g.alt | t(lang), { sizes: '(max-width: 640px) calc(100vw - 68px), 340px' } %}</button>
+            <figcaption class="hand">{{ g.caption | t(lang) }}</figcaption>
+          </figure>
+        </div>
 {%- endeach %}
+      </div>
     </div>
+{%- endif %}
+{%- endeach %}
   </section>

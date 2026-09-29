@@ -22,7 +22,7 @@ async function photoMeta(file) {
 export default function (config) {
   config.addPlugin(HtmlBasePlugin);
 
-  config.addPassthroughCopy({ 'src/assets/fonts': 'assets/fonts' });
+  config.addPassthroughCopy({ 'src/assets/fonts': 'assets/fonts', 'src/assets/video': 'assets/video' });
   config.addPassthroughCopy({ 'src/assets/*.{png,svg,jpg,webp}': 'assets' });
   config.addPassthroughCopy({ 'src/css': 'css', 'src/js': 'js' });
   config.addWatchTarget('src/css/');
@@ -41,6 +41,8 @@ export default function (config) {
     let run = 0;
     return days.slice(0, -1).map(d => ((run += d.km) / total * 100).toFixed(1));
   });
+  // gallery photos of one day
+  config.addFilter('byDay', (photos, n) => photos.filter(p => p.day === n));
   config.addFilter('fmt', (s, vars) => String(s).replace(/\{(\w+)\}/g, (_, k) => vars[k]));
 
   // Stories live in src/content/<lang>/<name>.md
@@ -71,6 +73,11 @@ export default function (config) {
       decoding: 'async',
       fetchpriority: opts.fetchpriority || undefined
     });
+  });
+  // URL of a photo at ~1200 px, for places that take a single URL (the <video> poster)
+  config.addShortcode('photoUrl', async file => {
+    const meta = await photoMeta(file);
+    return (meta.jpeg.find(m => m.width >= 1200) || meta.jpeg.at(-1)).url;
   });
   // Preload hint for the first hero photo
   config.addShortcode('photoPreload', async (file, sizes) => {

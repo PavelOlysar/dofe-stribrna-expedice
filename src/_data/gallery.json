@@ -1,206 +1,478 @@
 [
   {
-    "src": "hero.webp",
-    "alt": {
-      "cs": "Brána České Kanady",
-      "en": "Gateway to Czech Canada"
-    },
+    "src": "gallery/den1-1413.jpg",
+    "day": 1,
     "caption": {
-      "cs": "Brána České Kanady",
-      "en": "Gateway to Czech Canada"
+      "cs": "Kudy teď?",
+      "en": "Which way now?"
+    },
+    "alt": {
+      "cs": "Dva členové expedice s batohy se radí nad mapou v hustém smrkovém lese.",
+      "en": "Two expedition members with backpacks check the map in a dense spruce forest."
     },
     "rotate": -2.5,
     "tape": {
       "rotate": -5,
       "color": "color-accent-200"
-    },
-    "delay": 0
+    }
   },
   {
-    "src": "den1-dron.webp",
-    "alt": {
-      "cs": "Dřevěný domeček",
-      "en": "Wooden house"
-    },
+    "src": "gallery/den1-1609.jpg",
+    "day": 1,
     "caption": {
-      "cs": "Dřevěný domeček",
-      "en": "Wooden house"
+      "cs": "Voda z pumpy",
+      "en": "Water from the pump"
+    },
+    "alt": {
+      "cs": "Skupina s batohy u modré pumpy na návsi, jedna z nás nabírá vodu.",
+      "en": "The group with backpacks at a blue water pump on the village green, one of us filling up."
     },
     "rotate": 1.8,
     "tape": {
       "rotate": 4,
       "color": "color-accent-2-300"
-    },
-    "delay": 110
+    }
   },
   {
-    "src": "den1-les.jpeg",
-    "alt": {
-      "cs": "Po žluté!",
-      "en": "Following the yellow!"
-    },
+    "src": "gallery/den1-1613.jpg",
+    "day": 1,
     "caption": {
-      "cs": "Po žluté!",
-      "en": "Following the yellow!"
+      "cs": "Hrnky na plotě",
+      "en": "Mugs on the fence"
+    },
+    "alt": {
+      "cs": "Řada hrnků nasazených na kůlech dřevěného plotu u cesty.",
+      "en": "A row of mugs placed on the posts of a wooden fence by the road."
     },
     "rotate": -1.2,
     "tape": {
       "rotate": -5,
       "color": "color-neutral-300"
-    },
-    "delay": 220
+    }
   },
   {
-    "src": "hero-2.webp",
-    "alt": {
-      "cs": "Do kopce",
-      "en": "Uphill we go"
-    },
+    "src": "gallery/den1-1631.jpg",
+    "day": 1,
     "caption": {
-      "cs": "Do kopce",
-      "en": "Uphill we go"
+      "cs": "Pauza s výhledem",
+      "en": "A break with a view"
+    },
+    "alt": {
+      "cs": "Čtyři členové expedice pózují na louce, za nimi rybník a lesy.",
+      "en": "Four expedition members pose on a meadow with a pond and forests behind them."
     },
     "rotate": 2.6,
     "tape": {
       "rotate": 4,
       "color": "color-accent-200"
-    },
-    "delay": 0
+    }
   },
   {
-    "src": "den2-tricka.jpg",
-    "alt": {
-      "cs": "Malujeme trička",
-      "en": "Painting T-shirts"
-    },
+    "src": "gallery/den1-1742.jpg",
+    "day": 1,
     "caption": {
-      "cs": "Malujeme trička",
-      "en": "Painting T-shirts"
+      "cs": "Mávání dronu",
+      "en": "Waving at the drone"
+    },
+    "alt": {
+      "cs": "Záběr z dronu: pět členů expedice mává na lesní cestě.",
+      "en": "Drone shot: the five expedition members wave on a forest track."
     },
     "rotate": -1.8,
     "tape": {
       "rotate": -5,
       "color": "color-accent-2-300"
-    },
-    "delay": 110
+    }
   },
   {
-    "src": "hero-3.webp",
-    "alt": {
-      "cs": "Bílá trička, ready",
-      "en": "White T-shirts, ready"
-    },
+    "src": "gallery/den1-1816.jpg",
+    "day": 1,
     "caption": {
-      "cs": "Bílá trička, ready",
-      "en": "White T-shirts, ready"
+      "cs": "Podél rybníka",
+      "en": "Along the pond"
+    },
+    "alt": {
+      "cs": "Tři členové expedice jdou po silnici podél rybníka mezi smrky.",
+      "en": "Three members walk along a road beside a pond between spruce trees."
     },
     "rotate": 1.1,
     "tape": {
       "rotate": 4,
       "color": "color-neutral-300"
-    },
-    "delay": 220
+    }
   },
   {
-    "src": "den2-hrad.jpg",
-    "alt": {
-      "cs": "Hrad Landštejn",
-      "en": "Landštejn Castle"
-    },
+    "src": "gallery/den1-1910.jpg",
+    "day": 1,
     "caption": {
-      "cs": "Hrad Landštejn",
-      "en": "Landštejn Castle"
+      "cs": "Tortilly!",
+      "en": "Tortillas!"
+    },
+    "alt": {
+      "cs": "Příprava večeře v lese: tortilla s rajčaty a okurkou, ešus a vařič.",
+      "en": "Making dinner in the woods: a tortilla with tomatoes and cucumber, a pot and a stove."
     },
     "rotate": -2.2,
     "tape": {
       "rotate": -5,
       "color": "color-accent-200"
-    },
-    "delay": 0
+    }
   },
   {
-    "src": "hero-4.webp",
-    "alt": {
-      "cs": "Lesní cesta",
-      "en": "Forest path"
-    },
+    "src": "gallery/den2-0953.jpg",
+    "day": 2,
     "caption": {
-      "cs": "Lesní cesta",
-      "en": "Forest path"
+      "cs": "Bílá trička",
+      "en": "Blank T-shirts"
+    },
+    "alt": {
+      "cs": "Čtyři členové expedice zezadu v bílých tričkách v lese.",
+      "en": "Four members seen from behind in plain white T-shirts in the forest."
     },
     "rotate": 2.2,
     "tape": {
       "rotate": 4,
       "color": "color-accent-2-300"
-    },
-    "delay": 110
+    }
   },
   {
-    "src": "den3-keen.webp",
-    "alt": {
-      "cs": "Keen challenge",
-      "en": "Keen Challenge"
-    },
+    "src": "gallery/den2-1024.jpg",
+    "day": 2,
     "caption": {
-      "cs": "Keen challenge",
-      "en": "Keen Challenge"
+      "cs": "U věže",
+      "en": "By the tower"
+    },
+    "alt": {
+      "cs": "Čtyři členové expedice s batohy před budovou s věží a českou vlajkou.",
+      "en": "Four members with backpacks in front of a building with a tower and a Czech flag."
     },
     "rotate": -0.8,
     "tape": {
       "rotate": -5,
       "color": "color-neutral-300"
-    },
-    "delay": 220
+    }
   },
   {
-    "src": "hero-5.jpg",
-    "alt": {
-      "cs": "Noc v lese",
-      "en": "Night in the woods"
-    },
+    "src": "gallery/den2-1151.jpg",
+    "day": 2,
     "caption": {
-      "cs": "Noc v lese",
-      "en": "Night in the woods"
+      "cs": "Kaplička v lese",
+      "en": "Chapel in the woods"
+    },
+    "alt": {
+      "cs": "Čtveřice s batohy před bílou kapličkou s křížem.",
+      "en": "Four members with backpacks in front of a small white chapel with a cross."
     },
     "rotate": 1.6,
     "tape": {
       "rotate": 4,
       "color": "color-accent-200"
-    },
-    "delay": 0
+    }
   },
   {
-    "src": "den4-vecer.jpeg",
-    "alt": {
-      "cs": "Poslední večer",
-      "en": "Last evening"
-    },
+    "src": "gallery/den2-1154.jpg",
+    "day": 2,
     "caption": {
-      "cs": "Poslední večer",
-      "en": "Last evening"
+      "cs": "Na skalách",
+      "en": "On the rocks"
+    },
+    "alt": {
+      "cs": "Čtyři členové expedice pózují na velkých balvanech s červenou turistickou značkou.",
+      "en": "Four members pose on big boulders marked with the red trail sign."
     },
     "rotate": -2.8,
     "tape": {
       "rotate": -5,
       "color": "color-accent-2-300"
-    },
-    "delay": 110
+    }
   },
   {
-    "src": "den4-cil.jpg",
-    "alt": {
-      "cs": "Cíl! Vysočany",
-      "en": "Finish! Vysočany"
-    },
+    "src": "gallery/den2-1224.jpg",
+    "day": 2,
     "caption": {
-      "cs": "Cíl! Vysočany",
-      "en": "Finish! Vysočany"
+      "cs": "Selfie v zrcadle",
+      "en": "Mirror selfie"
+    },
+    "alt": {
+      "cs": "Skupina se vyfotila v dopravním zrcadle na sloupu s červenou značkou.",
+      "en": "The group photographed in a traffic mirror on a pole with a red trail mark."
     },
     "rotate": 1.3,
     "tape": {
       "rotate": 4,
       "color": "color-neutral-300"
+    }
+  },
+  {
+    "src": "gallery/den2-1323.jpg",
+    "day": 2,
+    "caption": {
+      "cs": "Oběd v lese",
+      "en": "Lunch in the woods"
     },
-    "delay": 220
+    "alt": {
+      "cs": "Čtveřice sedí v mechu v lese a odpočívá u batohů.",
+      "en": "Four members sit on the moss in the forest, resting by their backpacks."
+    },
+    "rotate": -2.5,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-200"
+    }
+  },
+  {
+    "src": "gallery/den2-1747.jpg",
+    "day": 2,
+    "caption": {
+      "cs": "Už nemůžu…",
+      "en": "Can’t go on…"
+    },
+    "alt": {
+      "cs": "Jeden z účastníků leží natažený uprostřed štěrkové cesty v lese.",
+      "en": "One of the group lies stretched out in the middle of a gravel forest road."
+    },
+    "rotate": 1.8,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-2-300"
+    }
+  },
+  {
+    "src": "gallery/den2-1943.jpg",
+    "day": 2,
+    "caption": {
+      "cs": "Večerní koupel",
+      "en": "Evening swim"
+    },
+    "alt": {
+      "cs": "Dva z nás se za soumraku koupou v rybníce, třetí sedí na molu.",
+      "en": "Two of us swim in the pond at dusk while a third sits on the jetty."
+    },
+    "rotate": -1.2,
+    "tape": {
+      "rotate": -5,
+      "color": "color-neutral-300"
+    }
+  },
+  {
+    "src": "gallery/den3-1609.jpg",
+    "day": 3,
+    "caption": {
+      "cs": "Česká republika!",
+      "en": "The border!"
+    },
+    "alt": {
+      "cs": "Čtveřice u hraniční cedule Česká republika na bývalém hraničním přechodu.",
+      "en": "Four members by the Czech Republic border sign at a former border crossing."
+    },
+    "rotate": 2.6,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-200"
+    }
+  },
+  {
+    "src": "gallery/den3-1748.jpg",
+    "day": 3,
+    "caption": {
+      "cs": "Vyhlídka",
+      "en": "The viewpoint"
+    },
+    "alt": {
+      "cs": "Dřevěný kříž na vyhlídce nad zalesněným údolím řeky.",
+      "en": "A wooden cross at a viewpoint above a forested river valley."
+    },
+    "rotate": -1.8,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-2-300"
+    }
+  },
+  {
+    "src": "gallery/den3-2022.jpg",
+    "day": 3,
+    "caption": {
+      "cs": "Soumrak",
+      "en": "Dusk"
+    },
+    "alt": {
+      "cs": "Vyhlídka za soumraku, nad údolím vychází měsíc.",
+      "en": "The viewpoint at dusk, with the moon rising over the valley."
+    },
+    "rotate": 1.1,
+    "tape": {
+      "rotate": 4,
+      "color": "color-neutral-300"
+    }
+  },
+  {
+    "src": "gallery/den3-2023.jpg",
+    "day": 3,
+    "caption": {
+      "cs": "Úplněk",
+      "en": "Full moon"
+    },
+    "alt": {
+      "cs": "Oranžový úplněk vychází nad obzorem.",
+      "en": "An orange full moon rising above the horizon."
+    },
+    "rotate": -2.2,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-200"
+    }
+  },
+  {
+    "src": "gallery/den3-2254.jpg",
+    "day": 3,
+    "caption": {
+      "cs": "Noc pod širákem",
+      "en": "Under the stars"
+    },
+    "alt": {
+      "cs": "Noční nebe s hvězdami nad loukou, v popředí spacák.",
+      "en": "The starry night sky over the meadow, a sleeping bag in the foreground."
+    },
+    "rotate": 2.2,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-2-300"
+    }
+  },
+  {
+    "src": "gallery/den4-0710.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "Dobré ráno",
+      "en": "Good morning"
+    },
+    "alt": {
+      "cs": "Ráno na louce: spacáky v trávě a borovice proti modrému nebi.",
+      "en": "Morning on the meadow: sleeping bags in the grass and pine trees against a blue sky."
+    },
+    "rotate": -0.8,
+    "tape": {
+      "rotate": -5,
+      "color": "color-neutral-300"
+    }
+  },
+  {
+    "src": "gallery/den4-0946.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "U bunkru",
+      "en": "By the bunker"
+    },
+    "alt": {
+      "cs": "Skupina odpočívá u starého betonového bunkru v lese, jeden sedí na jeho střeše.",
+      "en": "The group rests by an old concrete bunker in the woods, one of us sitting on its roof."
+    },
+    "rotate": 1.6,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-200"
+    }
+  },
+  {
+    "src": "gallery/den4-1007.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "Kristkův dům",
+      "en": "Kristek’s house"
+    },
+    "alt": {
+      "cs": "Čtveřice před bizarní sochou u Kristkova domu v Podhradí nad Dyjí.",
+      "en": "Four members in front of a bizarre sculpture at Kristek’s house in Podhradí nad Dyjí."
+    },
+    "rotate": -2.8,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-2-300"
+    }
+  },
+  {
+    "src": "gallery/den4-1456-2.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "Triko – Sofi",
+      "en": "T-shirt – Sofi"
+    },
+    "alt": {
+      "cs": "Pomalované tričko Sofi s rybníkem, lesem, sluníčkem a jmény účastníků.",
+      "en": "Sofi’s painted T-shirt with a pond, a forest, the sun and the members’ names."
+    },
+    "rotate": -1.2,
+    "tape": {
+      "rotate": -5,
+      "color": "color-neutral-300"
+    }
+  },
+  {
+    "src": "gallery/den4-1455.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "Triko – Pavel",
+      "en": "T-shirt – Pavel"
+    },
+    "alt": {
+      "cs": "Pomalované tričko Pavla s trasou expedice a nápisem Česká Kanada 2026.",
+      "en": "Pavel’s painted T-shirt with the expedition route and “Česká Kanada 2026”."
+    },
+    "rotate": -2.5,
+    "tape": {
+      "rotate": -5,
+      "color": "color-accent-200"
+    }
+  },
+  {
+    "src": "gallery/den4-1501.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "Triko – Tobi",
+      "en": "T-shirt – Tobi"
+    },
+    "alt": {
+      "cs": "Pomalované tričko Tobiho s kresbami a nápisy z cesty, mimo jiné „OMG dron!“ a Camp Velo.",
+      "en": "Tobi’s painted T-shirt with drawings and notes from the trip, including “OMG DRON!” and Camp Velo."
+    },
+    "rotate": 2.6,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-200"
+    }
+  },
+  {
+    "src": "gallery/den4-1456.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "Triko – Maru",
+      "en": "T-shirt – Maru"
+    },
+    "alt": {
+      "cs": "Pomalované tričko Maru plné kreseb z cesty: karty, dron a nápis Česká Kanada 2026.",
+      "en": "Maru’s painted T-shirt full of drawings from the trip: cards, the drone and “Česká Kanada 2026”."
+    },
+    "rotate": 1.8,
+    "tape": {
+      "rotate": 4,
+      "color": "color-accent-2-300"
+    }
+  },
+  {
+    "src": "gallery/den4-1206.jpg",
+    "day": 4,
+    "caption": {
+      "cs": "Úspěšně dokončeno!",
+      "en": "Successfully completed!"
+    },
+    "alt": {
+      "cs": "Dva účastníci si s batohy na zádech plácají na konci expedice.",
+      "en": "Two members high-five at the end of the expedition, backpacks on."
+    },
+    "rotate": 1.3,
+    "tape": {
+      "rotate": 4,
+      "color": "color-neutral-300"
+    }
   }
 ]
