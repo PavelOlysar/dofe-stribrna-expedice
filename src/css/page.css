@@ -23,8 +23,8 @@ a:hover{color:var(--color-accent-800)}
 @keyframes silverSheen{0%{background-position:0% 0%}100%{background-position:100% 100%}}
 
 /* Paper grain over everything: one pre-rendered tile (was six live SVG noise filters) plus the
-   faint overall tint the old base noise added */
-.grain{position:fixed;inset:0;z-index:50;pointer-events:none;background:url(../assets/grain.webp) 0 0 / 530px 530px, linear-gradient(rgb(102 77 51 / .033), rgb(102 77 51 / .033))}
+   faint overall tint the old base noise added. Its own compositor layer, so scrolling never repaints it. */
+.grain{position:fixed;inset:0;z-index:50;pointer-events:none;background:url(../assets/grain.webp) 0 0 / 530px 530px, linear-gradient(rgb(102 77 51 / .033), rgb(102 77 51 / .033));transform:translateZ(0);will-change:transform;contain:strict}
 
 /* Keyboard "skip to content" link: hidden until focused */
 .skip-link{position:fixed;left:16px;top:-60px;z-index:100;padding:10px 16px;border-radius:999px;background:var(--color-text);color:var(--color-bg);font-weight:700;text-decoration:none;transition:top .2s}
@@ -359,6 +359,8 @@ a:hover{color:var(--color-accent-800)}
   .dofe-link{display:inline-block;padding-block:10px;margin-block:-10px}
   /* trail tracker: only while scrolling (see script.js), so it never covers the text you read */
   .trail-pill{bottom:calc(12px + env(safe-area-inset-bottom, 0px))}
+  /* no background blur on phones: it's redrawn on every scrolled frame; a less see-through background instead */
+  .site-nav,.trail-pill{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgb(245 234 216 / .97);background:color-mix(in srgb, var(--color-bg) 97%, transparent)}
   /* glossary tooltips: a bar at the bottom of the screen, so they never run off the edge */
   .term::after{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom, 0px));width:auto;max-width:none;padding:12px 16px;font-size:15px;transform:translateY(8px);z-index:45}
   .term:hover::after,.term:focus-visible::after,.term:focus::after{transform:none}

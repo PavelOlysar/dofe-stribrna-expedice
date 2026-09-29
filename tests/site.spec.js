@@ -215,14 +215,28 @@ test('day 3 drone video: file and poster load, it plays on screen and the button
   const vid = page.locator('#den-3 [data-video]');
   await expect(vid).toHaveCount(1);
   expect((await request.get(await vid.locator('source').getAttribute('src'))).status()).toBe(200);
-  expect((await request.get(await vid.getAttribute('poster'))).status()).toBe(200);
   await vid.scrollIntoViewIfNeeded();
+  await expect(vid).toHaveAttribute('poster', /\/img\//);
+  expect((await request.get(await vid.getAttribute('poster'))).status()).toBe(200);
   await expect.poll(() => vid.evaluate(v => v.paused)).toBe(false);
   const btn = page.locator('[data-video-toggle]');
   await expect(btn).toHaveAttribute('aria-pressed', 'false');
   await btn.click();
   await expect.poll(() => vid.evaluate(v => v.paused)).toBe(true);
   await expect(btn).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('heavy parts wait: hero photos 2–5 until the page has loaded, the map and video poster until scrolled near', async ({ page, request }) => {
+  const html = await (await request.get('')).text();
+  const slides = (html.match(/data-slide="\d+"/g) || []).length;
+  expect((html.match(/<template data-slide-img>/g) || []).length).toBe(slides - 1);
+  await page.goto('', { waitUntil: 'domcontentloaded' });
+  const map = page.locator('.route-map > iframe');
+  await expect(map).not.toHaveAttribute('src', /./);
+  await expect(page.locator('[data-video]')).not.toHaveAttribute('poster', /./);
+  await expect(page.locator('[data-carousel] img')).toHaveCount(slides); // woken after load
+  await map.scrollIntoViewIfNeeded();
+  await expect(map).toHaveAttribute('src', /google/);
 });
 
 test.describe('video with reduced motion', () => {

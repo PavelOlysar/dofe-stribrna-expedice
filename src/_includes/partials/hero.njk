@@ -21,7 +21,8 @@
       <section class="carousel" data-reveal="img" data-delay="680" data-hero data-carousel style="opacity:0" aria-roledescription="carousel" aria-label="{{ i18n.carouselLabel | t(lang) }}">
 {%- asyncEach s in slides %}
         <div class="slide{% if loop.first %} on{% endif %}" data-slide="{{ loop.index0 }}" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ slides.length }}"{% if not loop.first %} aria-hidden="true" inert{% endif %}>
-          <button type="button" class="zoom" data-group="story" aria-label="{{ i18n.enlarge | t(lang) }}: {{ s.alt | t(lang) }}">{% photo s.src, s.alt | t(lang), { sizes: '(max-width: 1120px) calc(100vw - 48px), 1072px', cls: 'slot', loading: ('eager' if loop.first else 'lazy'), fetchpriority: ('high' if loop.first else '') } %}</button>
+{#- only the first photo loads with the page; the rest wait in a <template> until script.js wakes them after load #}
+          <button type="button" class="zoom" data-group="story" aria-label="{{ i18n.enlarge | t(lang) }}: {{ s.alt | t(lang) }}">{% if loop.first %}{% photo s.src, s.alt | t(lang), { sizes: '(max-width: 1120px) calc(100vw - 48px), 1072px', cls: 'slot', loading: 'eager', fetchpriority: 'high' } %}{% else %}<template data-slide-img>{% photo s.src, s.alt | t(lang), { sizes: '(max-width: 1120px) calc(100vw - 48px), 1072px', cls: 'slot' } %}</template>{% endif %}</button>
         </div>
 {%- endeach %}
         <div class="carousel-bar">

@@ -72,7 +72,15 @@
     anim.onfinish = () => goTo(slide + 1);
     applyHold();
   };
-  const goTo = i => { const n = slides.length; slide = (i + n) % n; render(); startAuto(); };
+  // photos 2–5 wait in a <template> so the first one gets all the bandwidth; they're put in after the page
+  // has loaded, or as soon as someone moves the carousel or opens a photo
+  let slidesAwake = false;
+  const wakeSlides = () => {
+    if (slidesAwake) return;
+    slidesAwake = true;
+    $$('template[data-slide-img]', carousel).forEach(t => t.replaceWith(t.content));
+  };
+  const goTo = i => { wakeSlides(); const n = slides.length; slide = (i + n) % n; render(); startAuto(); };
   const setUserPause = p => {
     hold.user = p;
     pauseBtn.setAttribute('aria-pressed', String(p));
@@ -135,6 +143,7 @@
     lbCount.textContent = `${lb + 1} / ${items.length}`;
   };
   const openLb = btn => {
+    wakeSlides(); // the viewer steps through the carousel photos too
     items = $$(`.zoom[data-group="${btn.dataset.group}"]`);
     const idx = items.indexOf(btn); if (idx < 0) return;
     opener = btn;
@@ -223,10 +232,24 @@
     btn.addEventListener('click', toggle);
     vid.addEventListener('click', toggle);
     document.addEventListener('visibilitychange', update);
+    // the poster photo loads only when the video is getting close, not with the page
+    const setPoster = () => { vid.poster = vid.dataset.poster; };
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([en]) => { inView = en.isIntersecting; update(); }, { threshold: 0.35 }).observe(vid);
-    }
+      const near = new IntersectionObserver(([en]) => { if (en.isIntersecting) { near.disconnect(); setPoster(); } }, { rootMargin: '600px 0px' });
+      near.observe(vid);
+    } else setPoster();
     sync();
+  }
+
+  /* ── Route map: Google Maps (~0.5 MB) loads only when it's about to scroll into view ── */
+  const map = $('[data-map-src]');
+  if (map) {
+    const loadMap = () => { map.src = map.dataset.mapSrc; };
+    if ('IntersectionObserver' in window) {
+      const near = new IntersectionObserver(([en]) => { if (en.isIntersecting) { near.disconnect(); loadMap(); } }, { rootMargin: '300px 0px' });
+      near.observe(map);
+    } else loadMap();
   }
 
   /* ── Scroll: progress bar, active nav, language links ─────── */
@@ -235,18 +258,23 @@
   const sections = links.map(l => document.getElementById(l.dataset.nav));
   // the CZ/EN links keep you in the same section of the other language
   const langLinks = $$('[data-lang-link]').map(a => ({ a, base: a.getAttribute('href') }));
-  let raf = 0, activeId = '';
+  let raf = 0, activeId = null;
+  // every position is read first and only then is anything changed, so the page is laid out once per frame
   const tick = () => {
     raf = 0;
     const se = document.scrollingElement || document.documentElement;
-    const max = se.scrollHeight - innerHeight;
-    if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(1, se.scrollTop / max) : 0})`;
+    const max = se.scrollHeight - innerHeight, y = se.scrollTop;
     let active = null;
     links.forEach((l, i) => { const s = sections[i]; if (s && s.getBoundingClientRect().top < 160) active = l; });
-    links.forEach(l => l.classList.toggle('is-active', l === active));
+    const walked = trailState();
+    if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
     const id = active ? active.dataset.nav : '';
-    if (id !== activeId) { activeId = id; langLinks.forEach(({ a, base }) => { a.href = base + (id ? '#' + id : ''); }); }
-    trail();
+    if (id !== activeId) {
+      activeId = id;
+      links.forEach(l => l.classList.toggle('is-active', l === active));
+      langLinks.forEach(({ a, base }) => { a.href = base + (id ? '#' + id : ''); });
+    }
+    if (walked) trail(walked);
   };
 
   /* ── Trail tracker: km "walked" while reading the four days ── */
@@ -256,29 +284,30 @@
   const phone = matchMedia('(max-width: 560px)');
   let pillTimer = 0;
   const daySecs = DAY_KM.map((_, i) => document.getElementById(`den-${i + 1}`));
-  const trail = () => {
-    if (!pill || !daySecs[0]) return;
+  const tp = pill && { day: $('[data-tp-day]', pill), km: $('[data-tp-km]', pill), fill: $('[data-tp-fill]', pill), dot: $('[data-tp-dot]', pill) };
+  const shown = {};
+  const trailState = () => {
+    if (!pill || !daySecs[0]) return null;
     const mid = innerHeight * 0.5;
-    const first = daySecs[0].getBoundingClientRect(), last = daySecs[daySecs.length - 1].getBoundingClientRect();
-    const inDays = first.top < mid && last.bottom > mid * 0.6;
+    const rects = daySecs.map(sec => sec.getBoundingClientRect());
+    let km = 0, day = 1;
+    rects.forEach((r, i) => {
+      km += DAY_KM[i] * Math.min(1, Math.max(0, (mid - r.top) / r.height));
+      if (r.top < mid) day = i + 1;
+    });
+    return { inDays: rects[0].top < mid && rects[rects.length - 1].bottom > mid * 0.6, km, day };
+  };
+  const trail = ({ inDays, km, day }) => {
     pill.classList.toggle('on', inDays);
     if (phone.matches) {
       // phones: show only while scrolling, then fade out so it never covers the text being read
       clearTimeout(pillTimer);
       if (inDays) pillTimer = setTimeout(() => pill.classList.remove('on'), 1200);
     }
-    let km = 0, day = 1;
-    daySecs.forEach((sec, i) => {
-      const r = sec.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, (mid - r.top) / r.height));
-      km += DAY_KM[i] * p;
-      if (r.top < mid) day = i + 1;
-    });
-    $('[data-tp-day]', pill).textContent = day;
-    $('[data-tp-km]', pill).textContent = dec(km.toFixed(1));
-    const pct = (km / TOTAL) * 100 + '%';
-    $('[data-tp-fill]', pill).style.width = pct;
-    $('[data-tp-dot]', pill).style.left = pct;
+    const kmText = dec(km.toFixed(1)), pct = ((km / TOTAL) * 100).toFixed(2) + '%';
+    if (shown.day !== day) tp.day.textContent = shown.day = day;
+    if (shown.km !== kmText) tp.km.textContent = shown.km = kmText;
+    if (shown.pct !== pct) { shown.pct = pct; tp.fill.style.width = pct; tp.dot.style.left = pct; }
   };
   const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
   addEventListener('scroll', onScroll, { passive: true });
@@ -359,6 +388,8 @@
   tick();
   if (motionOn) { setupReveal(); playIntroExtras(); }
   else $$('[data-hero]').forEach(el => { el.style.opacity = ''; });
-  setTimeout(startAuto, motionOn ? 1500 : 0);
+  // on a slow connection the first photo may still be loading: the slideshow doesn't move on before it's shown
+  const afterLoad = fn => { if (document.readyState === 'complete') fn(); else addEventListener('load', fn, { once: true }); };
+  afterLoad(() => { wakeSlides(); setTimeout(startAuto, motionOn ? 1500 : 0); });
   window.expediceReady = true; // tells the failsafe in <head> that the hero is handled
 })();

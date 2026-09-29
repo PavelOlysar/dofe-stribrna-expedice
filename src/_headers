@@ -1,0 +1,14 @@
+# Cache rules for Cloudflare Workers static assets (copied to _site/_headers by the build).
+# Rules must not overlap: Cloudflare joins the values of every rule that matches a path.
+# Photos in /img/ never change under the same name (their names carry a content hash), so browsers
+# may keep them for a year. Everything else keeps its name when edited, so it's cached for less.
+/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/fonts/*
+  Cache-Control: public, max-age=2592000
+/assets/video/*
+  Cache-Control: public, max-age=86400
+/css/*
+  Cache-Control: public, max-age=600
+/js/*
+  Cache-Control: public, max-age=600

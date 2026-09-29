@@ -99,13 +99,14 @@ The tests (`tests/site.spec.js`) open the built site in Chromium and check:
 
 ## Deploy
 
-Every push to GitHub runs the checks (`.github/workflows/site.yml`). A push to `main` that passes is
-published to GitHub Pages at <https://pavelolysar.github.io/dofe-stribrna-expedice/>.
+The site is hosted on Cloudflare Workers at <https://dofe-stribrna-expedice.olysarp.workers.dev/>.
+Cloudflare (Workers Builds) runs `npm run build` and publishes `_site/` on every push to `main`.
+GitHub Actions (`.github/workflows/site.yml`) runs the checks on every push; it doesn't publish anything.
 
-One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+`src/_headers` sets how long browsers cache files (photos for a year, CSS and JS for 10 minutes).
 
-With a custom domain later, set `SITE_ORIGIN` and `PATH_PREFIX` in the workflow (see `src/_data/site.js`)
-so link previews and paths use the new address.
+With a custom domain later, set `SITE_ORIGIN` in the Cloudflare build settings (see `src/_data/site.js`)
+so link previews, canonical links and the sitemap use the new address.
 
 ## Structure
 
@@ -113,6 +114,7 @@ so link previews and paths use the new address.
 | --- | --- |
 | `src/index.njk` | The page; builds both `/` (cs) and `/en/` |
 | `src/404.njk` · `src/sitemap.njk` · `src/robots.njk` | The 404 page, the sitemap for search engines, robots.txt |
+| `src/_headers` | Cache rules for Cloudflare |
 | `src/_includes/` | Layout and page sections (`partials/`: nav, hero, route, day, finale, gallery, footer…) |
 | `src/css/styles.css` | Design-system tokens and base components (colours, type, buttons, tags) |
 | `src/css/page.css` | Page styles, in page order |
@@ -120,7 +122,7 @@ so link previews and paths use the new address.
 | `src/assets/` | Logos, icons, link-preview image, the paper grain tile, self-hosted fonts (`fonts/`) and `photos/` |
 | `eleventy.config.js` | Build setup: photo sizes, language helpers |
 | `tools/` | `prepare-media.mjs` (`npm run media`) and the video encoder it uses |
-| `tests/` | Browser tests and a small server that mimics GitHub Pages |
+| `tests/` | Browser tests and a small static server for them |
 
 ## Credits
 
