@@ -109,13 +109,12 @@ test.describe('with Reduce Motion turned on in the system', () => {
   });
 });
 
-test('preloader shows while loading, then gets out of the way', async ({ page }) => {
+test('no preloader: the hero animates in right away and the page scrolls', async ({ page }) => {
   await page.goto('', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('[data-preloader]')).toBeVisible();
-  await expect(page.locator('html')).toHaveClass(/is-loading/);
-  await expect(page.locator('[data-preloader]')).toHaveCount(0, { timeout: 7000 });
-  await expect(page.locator('html')).not.toHaveClass(/is-loading/);
-  await expect(page.locator('.hero-title')).toBeVisible();
+  await expect(page.locator('[data-preloader]')).toHaveCount(0);
+  await expect(page.locator('.hero-title span').last()).toHaveCSS('opacity', '1', { timeout: 3000 });
+  await page.evaluate(() => scrollTo(0, 600));
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
 });
 
 async function swipe(page, locator, dx) {

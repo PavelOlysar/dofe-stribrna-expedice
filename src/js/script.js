@@ -1,4 +1,4 @@
-// Expedition story page: preloader, mobile menu, hero carousel, lightbox, scroll progress, active nav,
+// Expedition story page: mobile menu, hero carousel, lightbox, scroll progress, active nav,
 // trail tracker, the day-3 drone video and reveal-on-scroll animations. Each language has its own page,
 // so this script never swaps texts, it only reads <html lang> for number formatting.
 (() => {
@@ -298,8 +298,7 @@
   addEventListener('resize', onScroll);
 
   /* ── Reveal-on-scroll ─────────────────────────────────────── */
-  // Hides everything that animates in right away (while the preloader still covers the page) and
-  // returns the function that starts showing it.
+  // Hides everything that animates in and returns the function that starts showing it.
   const setupReveal = () => {
     // story paragraphs come from Markdown, so they get their reveal here
     $$('.story-text > p, .day-row .prose > p').forEach(p => { p.dataset.reveal = 'up'; });
@@ -371,39 +370,14 @@
     a.onfinish = () => { el.style.opacity = ''; a.cancel(); };
   };
 
-  /* ── Preloader ────────────────────────────────────────────── */
-  // Stays up until the fonts and the first hero photo are ready: at least 1.5 s so it reads as part of the
-  // page, at most 6 s so a slow photo never keeps the story hidden.
-  const preloader = document.querySelector('[data-preloader]');
-  const wait = ms => new Promise(r => setTimeout(r, ms));
-  const firstPhoto = () => new Promise(done => {
-    const img = slides[0] && $('img', slides[0]);
-    if (!img) return done();
-    const decoded = () => (img.decode ? img.decode() : Promise.resolve()).then(done, done);
-    if (img.complete) decoded();
-    else { img.addEventListener('load', decoded, { once: true }); img.addEventListener('error', done, { once: true }); }
-  });
-  const pageReady = () => preloader
-    ? Promise.race([Promise.all([document.fonts ? document.fonts.ready.catch(() => {}) : null, firstPhoto(), wait(1500)]), wait(6000)])
-    : Promise.resolve();
-  const hidePreloader = () => {
-    document.documentElement.classList.remove('is-loading');
-    if (!preloader) return;
-    preloader.classList.add('done');
-    setTimeout(() => preloader.remove(), 600);
-  };
-
   /* ── Boot ─────────────────────────────────────────────────── */
   render();
   tick();
   const startReveal = motionOn ? setupReveal() : null;
+  if (startReveal) { startReveal(); playIntroExtras(); }
+  else $$('[data-hero]').forEach(el => { el.style.opacity = ''; });
   // on a slow connection the first photo may still be loading: the slideshow doesn't move on before it's shown
   const afterLoad = fn => { if (document.readyState === 'complete') fn(); else addEventListener('load', fn, { once: true }); };
-  pageReady().then(() => {
-    hidePreloader();
-    if (startReveal) { startReveal(); playIntroExtras(); }
-    else $$('[data-hero]').forEach(el => { el.style.opacity = ''; });
-    afterLoad(() => { wakeSlides(); setTimeout(startAuto, motionOn ? 1500 : 0); });
-  });
+  afterLoad(() => { wakeSlides(); setTimeout(startAuto, motionOn ? 1500 : 0); });
   window.expediceReady = true; // tells the failsafe at the top of <body> that the script is running
 })();
