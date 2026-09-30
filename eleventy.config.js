@@ -1,5 +1,6 @@
 import { HtmlBasePlugin } from '@11ty/eleventy';
 import Image from '@11ty/eleventy-img';
+import fs from 'node:fs';
 import path from 'node:path';
 
 const PHOTOS = 'src/assets/photos/';
@@ -24,7 +25,7 @@ export default function (config) {
 
   config.addPassthroughCopy({ 'src/assets/fonts': 'assets/fonts', 'src/assets/video': 'assets/video' });
   config.addPassthroughCopy({ 'src/assets/*.{png,svg,jpg,webp}': 'assets' });
-  config.addPassthroughCopy({ 'src/css': 'css', 'src/js': 'js' });
+  config.addPassthroughCopy({ 'src/css': 'css' });
   // cache rules for Cloudflare (ignored by other hosts)
   config.addPassthroughCopy({ 'src/_headers': '_headers' });
   config.addWatchTarget('src/css/');
@@ -81,6 +82,9 @@ export default function (config) {
     const meta = await photoMeta(file);
     return (meta.jpeg.find(m => m.width >= 1200) || meta.jpeg.at(-1)).url;
   });
+  // The page script goes inline: a separate /js/script.js got blocked by ad/tracker blockers
+  // (a generic tracker-like URL), and an inline script has no URL to block
+  config.addShortcode('inlineFile', file => fs.readFileSync(file, 'utf8'));
   // Preload hint for the first hero photo
   config.addShortcode('photoPreload', async (file, sizes) => {
     const meta = await photoMeta(file);

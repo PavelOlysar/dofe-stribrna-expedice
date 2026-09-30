@@ -8,7 +8,7 @@ layout: base.njk
 heroPreload: true
 ---
 {%- set stories = collections.stories[lang] -%}
-{#- failsafe: if script.js never runs, show the hero after 2.5 s -#}
+{#- failsafe: if the page script never runs, show the hero after 2.5 s -#}
 <script>setTimeout(function(){if(!window.expediceReady){var h=document.querySelectorAll('[data-hero]');for(var i=0;i<h.length;i++)h[i].style.opacity=''}},2500)</script>
 <a class="skip-link" href="#obsah">{{ i18n.skip | t(lang) }}</a>
 <div id="app">
@@ -31,4 +31,4 @@ heroPreload: true
 {% include "partials/trail-pill.njk" %}
 </div>
 {% include "partials/lightbox.njk" %}
-<script src="/js/script.js"></script>
+<script>{% inlineFile 'src/js/script.js' %}</script>

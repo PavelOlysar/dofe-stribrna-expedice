@@ -103,7 +103,7 @@ The site is hosted on Cloudflare Workers at <https://dofe-stribrna-expedice.olys
 Cloudflare (Workers Builds) runs `npm run build` and publishes `_site/` on every push to `main`.
 GitHub Actions (`.github/workflows/site.yml`) runs the checks on every push; it doesn't publish anything.
 
-`src/_headers` sets how long browsers cache files (photos for a year, CSS and JS for 10 minutes).
+`src/_headers` sets how long browsers cache files (photos for a year, CSS for 10 minutes).
 
 With a custom domain later, set `SITE_ORIGIN` in the Cloudflare build settings (see `src/_data/site.js`)
 so link previews, canonical links and the sitemap use the new address.
@@ -118,7 +118,7 @@ so link previews, canonical links and the sitemap use the new address.
 | `src/_includes/` | Layout and page sections (`partials/`: nav, hero, route, day, finale, gallery, footer…) |
 | `src/css/styles.css` | Design-system tokens and base components (colours, type, buttons, tags) |
 | `src/css/page.css` | Page styles, in page order |
-| `src/js/script.js` | Menu, slideshow, photo viewer, scroll progress, trail tracker, reveal animations |
+| `src/js/script.js` | Inlined into the page by the build: menu, slideshow, photo viewer, scroll progress, trail tracker, reveal animations |
 | `src/assets/` | Logos, icons, link-preview image, the paper grain tile, self-hosted fonts (`fonts/`) and `photos/` |
 | `eleventy.config.js` | Build setup: photo sizes, language helpers |
 | `tools/` | `prepare-media.mjs` (`npm run media`) and the video encoder it uses |
